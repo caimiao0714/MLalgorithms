@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>第4章 Continuous optimization | Machine learning Algorithms</title>
+  <meta name="description" content="机器学习和贝叶斯统计主流算法。">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="第4章 Continuous optimization | Machine learning Algorithms" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="机器学习和贝叶斯统计主流算法。" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="第4章 Continuous optimization | Machine learning Algorithms" />
+  
+  <meta name="twitter:description" content="机器学习和贝叶斯统计主流算法。" />
+  
+
+<meta name="author" content="蔡苗">
+
+
+<meta name="date" content="2019-04-18">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="discrete-optimization.html">
+<link rel="next" href="introduction-1.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="style\gitbook.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="1" data-path="preface.html"><a href="preface.html"><i class="fa fa-check"></i><b>1</b> Preface</a></li>
+<li class="chapter" data-level="2" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>2</b> Introduction</a></li>
+<li class="chapter" data-level="3" data-path="discrete-optimization.html"><a href="discrete-optimization.html"><i class="fa fa-check"></i><b>3</b> Discrete optimization</a><ul>
+<li class="chapter" data-level="3.1" data-path="discrete-optimization.html"><a href="discrete-optimization.html#heuristic-and-metaheuristic-methods"><i class="fa fa-check"></i><b>3.1</b> Heuristic and metaheuristic methods</a></li>
+<li class="chapter" data-level="3.2" data-path="discrete-optimization.html"><a href="discrete-optimization.html#genetic-algorithm-and-simulated-annealing-as-examples"><i class="fa fa-check"></i><b>3.2</b> Genetic algorithm and simulated Annealing as examples</a></li>
+<li class="chapter" data-level="3.3" data-path="discrete-optimization.html"><a href="discrete-optimization.html#constrains"><i class="fa fa-check"></i><b>3.3</b> Constrains</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="continuous-optimization.html"><a href="continuous-optimization.html"><i class="fa fa-check"></i><b>4</b> Continuous optimization</a><ul>
+<li class="chapter" data-level="4.1" data-path="continuous-optimization.html"><a href="continuous-optimization.html#first-and-second-derivative"><i class="fa fa-check"></i><b>4.1</b> First and second derivative</a></li>
+<li class="chapter" data-level="4.2" data-path="continuous-optimization.html"><a href="continuous-optimization.html#first-order-derivative-methods"><i class="fa fa-check"></i><b>4.2</b> First Order Derivative methods</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="continuous-optimization.html"><a href="continuous-optimization.html#gradient-descent"><i class="fa fa-check"></i><b>4.2.1</b> Gradient descent</a></li>
+<li class="chapter" data-level="4.2.2" data-path="continuous-optimization.html"><a href="continuous-optimization.html#stochastic-gradient-descent"><i class="fa fa-check"></i><b>4.2.2</b> Stochastic gradient descent</a></li>
+<li class="chapter" data-level="4.2.3" data-path="continuous-optimization.html"><a href="continuous-optimization.html#coordinate-descent"><i class="fa fa-check"></i><b>4.2.3</b> Coordinate descent</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="continuous-optimization.html"><a href="continuous-optimization.html#second-order-derivative-methods"><i class="fa fa-check"></i><b>4.3</b> Second Order Derivative methods</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="continuous-optimization.html"><a href="continuous-optimization.html#iteratively-reweighted-least-squares-irls"><i class="fa fa-check"></i><b>4.3.1</b> Iteratively reweighted least squares (IRLS)</a></li>
+<li class="chapter" data-level="4.3.2" data-path="continuous-optimization.html"><a href="continuous-optimization.html#newton-raphson-optimization-and-fisher-scoring"><i class="fa fa-check"></i><b>4.3.2</b> Newton-Raphson optimization and Fisher Scoring</a></li>
+<li class="chapter" data-level="4.3.3" data-path="continuous-optimization.html"><a href="continuous-optimization.html#limited-memory-broyden-fletcher-goldfarb-shanno-l-bfgs"><i class="fa fa-check"></i><b>4.3.3</b> Limited-memory Broyden-Fletcher-Goldfarb-Shanno (L-BFGS)</a></li>
+<li class="chapter" data-level="4.3.4" data-path="continuous-optimization.html"><a href="continuous-optimization.html#l-bfgs-versus-irls-for-glms"><i class="fa fa-check"></i><b>4.3.4</b> L-BFGS Versus IRLS for GLM’s</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="continuous-optimization.html"><a href="continuous-optimization.html#close-thoughts"><i class="fa fa-check"></i><b>4.4</b> Close thoughts</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="introduction-1.html"><a href="introduction-1.html"><i class="fa fa-check"></i><b>5</b> Introduction</a></li>
+<li class="chapter" data-level="6" data-path="introduction-2.html"><a href="introduction-2.html"><i class="fa fa-check"></i><b>6</b> Introduction</a></li>
+<li class="chapter" data-level="7" data-path="introduction-3.html"><a href="introduction-3.html"><i class="fa fa-check"></i><b>7</b> Introduction</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Machine learning Algorithms</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="continuous-optimization" class="section level1">
+<h1><span class="header-section-number">第4章</span> Continuous optimization</h1>
+<p>Points to learn in continuous optimization:</p>
+<ul>
+<li>Understand first and second derivatives and the role they play in optimizing continuous functions.</li>
+<li>Understand general steps in continuous optimization</li>
+<li>Contrast 1st order versus 2nd order derivative optimization methods</li>
+<li>Extend these thoughts to the distributed computing context</li>
+</ul>
+<p>Things to consider for smart steps:</p>
+<ul>
+<li>Initialization value: where should I start?</li>
+<li>Direction of the gradient: what direction should I we step towards?</li>
+<li>Step size: how big of a step should we take?</li>
+</ul>
+<div id="first-and-second-derivative" class="section level2">
+<h2><span class="header-section-number">4.1</span> First and second derivative</h2>
+<p><strong>First derivative/gradient</strong></p>
+<ul>
+<li>Instantaneous slope of a point (rate of change of the function)</li>
+<li>If we have multiple input variables (multiple x’s), then we need to know the gradient in the direction of each of the x’s (partial derivatives). The matrix of partial first derivatives is called <strong>the Jacobian</strong>.</li>
+</ul>
+<p><strong>Second derivative</strong></p>
+<ul>
+<li>Tells me the ‘curvature’ of a function.</li>
+<li>Rate of change of the first derivative.</li>
+<li>If we have multiple input variables (multiple x’s), then the matrix of partial second derivatives is called <strong>the Hessian</strong>.</li>
+</ul>
+<p>A comparison of first and second order derivative methods</p>
+<ul>
+<li>Second order derivative methods are generally more accurate and converge in fewer steps</li>
+<li>Second order derivative methods are more resource intensive</li>
+<li>Sometimes it is easy and cheap to calculate the Hessian…(generalized linear models with canonical link), so why not?</li>
+<li>Sometimes it is expensive though.</li>
+<li>There is a tradeoff here that is context dependent.</li>
+</ul>
+<p><strong>Why not always second derivative</strong></p>
+<ul>
+<li>It’s expensive and takes more time / resources / memory.</li>
+<li>The Jacobian matrix only requires <span class="math inline">\(O(n)\)</span> storage.</li>
+<li>The Hessian matrix requires <span class="math inline">\(O(n^2)\)</span> storage.</li>
+<li>The size of the matrix grows exponentially with the size of the input data (specifically the number of columns).</li>
+<li>But…it can be more efficient if we take fewer steps, as long as the dataset isn’t too big.</li>
+</ul>
+<p>There is a tradeoff between the accuracy of the next step we take, and the amount of resources is take to calculate the next step.</p>
+</div>
+<div id="first-order-derivative-methods" class="section level2">
+<h2><span class="header-section-number">4.2</span> First Order Derivative methods</h2>
+<div id="gradient-descent" class="section level3">
+<h3><span class="header-section-number">4.2.1</span> Gradient descent</h3>
+<p><a href="https://en.wikipedia.org/wiki/Gradient_descent">Sourced from wikipedia</a></p>
+<ul>
+<li>Start somewhere (initial values for X)</li>
+<li>Calculate the gradient at that point</li>
+<li>Take a step in the correct direction based on the gradient</li>
+<li>Step size is a function of the gradient (larger gradient means larger step size)</li>
+<li>Repeat.</li>
+<li>Stop algorithm once it converges (within tolerance) to a single point.</li>
+<li>This is <strong>expensive</strong>! Requires a full pass over all training data at every step…</li>
+</ul>
+</div>
+<div id="stochastic-gradient-descent" class="section level3">
+<h3><span class="header-section-number">4.2.2</span> Stochastic gradient descent</h3>
+<p>(<a href="https://en.wikipedia.org/wiki/Stochastic_gradient_descent" class="uri">https://en.wikipedia.org/wiki/Stochastic_gradient_descent</a>)</p>
+<ul>
+<li>Start somewhere (initial values for X)</li>
+<li>Randomly shuffle the data by row.</li>
+<li>For i=1,2,3…n, calculate the gradient <strong>only for the i’th sample</strong> (not the full dataset).</li>
+<li>Take a step in the correct direction based on the gradient</li>
+<li>Step size is a function of the gradient (larger gradient means larger step size)</li>
+<li>Repeat.</li>
+<li>Stop algorithm once it converges (within tolerance) to a single point.</li>
+<li>This is less costly, since you don’t need a full pass over the data for every step. But it is less accurate as well…</li>
+</ul>
+</div>
+<div id="coordinate-descent" class="section level3">
+<h3><span class="header-section-number">4.2.3</span> Coordinate descent</h3>
+<p>(<a href="https://en.wikipedia.org/wiki/Coordinate_descent" class="uri">https://en.wikipedia.org/wiki/Coordinate_descent</a></p>
+<ul>
+<li>If we have multiple X values, then we optimize them by only considering a change in a single X value at a time. The step size is based on only changing one X.</li>
+<li>This is useful if it is hard to calculate the gradient for all variables (the Jacobian), but easier to only work on one variable at a time.</li>
+<li>This is the optimal solver for regularized GLM’s (elastic net regression).
+<ul>
+<li>Start somewhere (initial values for X)</li>
+<li>Choose one of the X’s (coordinates), change the value (your step).</li>
+<li>Calculate the objective function. Next round, change a different X.</li>
+<li>Repeat.</li>
+<li>Stop algorithm once it converges (within tolerance) to a single point.</li>
+</ul></li>
+</ul>
+<p>Reference to <a href="https://web.stanford.edu/~hastie/Papers/glmnet.pdf">Regularization Paths for Generalized Linear Models via Coordinate Descent</a></p>
+</div>
+</div>
+<div id="second-order-derivative-methods" class="section level2">
+<h2><span class="header-section-number">4.3</span> Second Order Derivative methods</h2>
+<div id="iteratively-reweighted-least-squares-irls" class="section level3">
+<h3><span class="header-section-number">4.3.1</span> Iteratively reweighted least squares (IRLS)</h3>
+<ul>
+<li>This is the most popular in data science frameworks.</li>
+<li>This is efficient and accurate for generalized linear models (logistic regression, Poisson regression etc…)</li>
+<li>The Hessian matrix (second derivative) gives us information about the uncertainty of the solution. This is where our confidence intervals and p-values come from!</li>
+</ul>
+</div>
+<div id="newton-raphson-optimization-and-fisher-scoring" class="section level3">
+<h3><span class="header-section-number">4.3.2</span> Newton-Raphson optimization and Fisher Scoring</h3>
+<ul>
+<li>More general cases of IRLS. These are identical when applied to GLM’s, so you often see the terms interchanged when talking about GLM’s. These are not necessarily identical outside of GLM’s.</li>
+<li>Second-order methods are sometimes termed ‘Newton methods’</li>
+</ul>
+</div>
+<div id="limited-memory-broyden-fletcher-goldfarb-shanno-l-bfgs" class="section level3">
+<h3><span class="header-section-number">4.3.3</span> Limited-memory Broyden-Fletcher-Goldfarb-Shanno (L-BFGS)</h3>
+<p>Technically first order since it does not evaluate the Hessian.</p>
+<ul>
+<li>However, it does approximate the Hessian by storing the prior gradient evaluations!</li>
+<li>So we get some idea of the rate of change of the gradient by looking at the trend of the prior gradients.</li>
+<li>This is termed ‘quasi-Newton’ since we approximate the Hessian without actually incurring the full cost</li>
+</ul>
+<p>Orthant-Wise Limited-memory Quasi-Newton (OWL-QN) is an extension to this that effectively optimizes regularized regression (L1 or elastic net). This is implemented in Apache Spark.</p>
+</div>
+<div id="l-bfgs-versus-irls-for-glms" class="section level3">
+<h3><span class="header-section-number">4.3.4</span> L-BFGS Versus IRLS for GLM’s</h3>
+<ul>
+<li>Both can be implemented in parallel by calculating chunks of rows at a time.</li>
+<li>Consider m rows and n columns…the IRLS algorithm requires an NxN matrix be generated no matter how small we make M by chunking by row.</li>
+<li>So if we have a large number of columns, IRLS can underperform (take too long / too much memory), even in distributed environments.</li>
+<li>L-BFGS is more efficient for a large number of columns. But, it is generally less accurate (Takes more steps).</li>
+</ul>
+</div>
+</div>
+<div id="close-thoughts" class="section level2">
+<h2><span class="header-section-number">4.4</span> Close thoughts</h2>
+<ul>
+<li>Choice of optimization method is important!</li>
+<li>Depending on how large your data is, or how complex your objective function is, you may have to try different optimization methods.</li>
+<li>If the optimization method you choose does not give you estimates about the uncertainty of the solution (I.E. confidence intervals and p-values), you may be able to get that from a direct Hessian calculation once you have declared the optimal solution to be found.</li>
+</ul>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="discrete-optimization.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="introduction-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["MLalgorithms.pdf"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

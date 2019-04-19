@@ -168,11 +168,10 @@ This book works as a notebook to summarize the algorithms used in Bayesian infer
 \hypertarget{introduction}{%
 \chapter{Introduction}\label{introduction}}
 
-\hypertarget{optimization}{%
-\chapter{Optimization}\label{optimization}}
-
 \hypertarget{discrete-optimization}{%
-\section{Discrete optimization}\label{discrete-optimization}}
+\chapter{Discrete optimization}\label{discrete-optimization}}
+
+Most of the concepts are explain in Chapter 4 Numerical Computation from the Deep Learning book \url{https://www.deeplearningbook.org/contents/numerical.html}.
 
 The \textbf{objective function} allows us to measure how ``good'' any given solution to the problem is.
 We seek to maximize or minimize the objective function.
@@ -180,10 +179,10 @@ We seek to maximize or minimize the objective function.
 \textbf{Derivative/gradient} based methods keep going ``uphill'' until they are at the top of the h
 
 \hypertarget{heuristic-and-metaheuristic-methods}{%
-\subsection{Heuristic and metaheuristic methods}\label{heuristic-and-metaheuristic-methods}}
+\section{Heuristic and metaheuristic methods}\label{heuristic-and-metaheuristic-methods}}
 
 \begin{quote}
-``a \textbf{heuristic} is a technique designed for solving a problem more quickly when classic methods are too slow, or for finding an approximate solution when classic methods fail to find any exact solution.''
+a \textbf{heuristic} is a technique designed for solving a problem more quickly when classic methods are too slow, or for finding an approximate solution when classic methods fail to find any exact solution.
 \end{quote}
 
 \begin{quote}
@@ -276,7 +275,7 @@ General meta-heuristics traits
 \end{itemize}
 
 \hypertarget{genetic-algorithm-and-simulated-annealing-as-examples}{%
-\subsection{Genetic algorithm and simulated Annealing as examples}\label{genetic-algorithm-and-simulated-annealing-as-examples}}
+\section{Genetic algorithm and simulated Annealing as examples}\label{genetic-algorithm-and-simulated-annealing-as-examples}}
 
 \textbf{Genetic algorithm}: need to explore large portions of the parameter space at random. Concept of ``neighbor'' is vague.
 
@@ -311,7 +310,7 @@ The problem become intractable with large number of locations and resources: How
 \end{itemize}
 
 \hypertarget{constrains}{%
-\subsection{Constrains}\label{constrains}}
+\section{Constrains}\label{constrains}}
 
 Hard constraints
 
@@ -335,8 +334,256 @@ Soft Constraints
   Leave requests.
 \end{itemize}
 
+\hypertarget{continuous-optimization}{%
+\chapter{Continuous optimization}\label{continuous-optimization}}
+
+Points to learn in continuous optimization:
+
+\begin{itemize}
+\tightlist
+\item
+  Understand first and second derivatives and the role they play in optimizing continuous functions.
+\item
+  Understand general steps in continuous optimization
+\item
+  Contrast 1st order versus 2nd order derivative optimization methods
+\item
+  Extend these thoughts to the distributed computing context
+\end{itemize}
+
+Things to consider for smart steps:
+
+\begin{itemize}
+\tightlist
+\item
+  Initialization value: where should I start?
+\item
+  Direction of the gradient: what direction should I we step towards?
+\item
+  Step size: how big of a step should we take?
+\end{itemize}
+
+\hypertarget{first-and-second-derivative}{%
+\section{First and second derivative}\label{first-and-second-derivative}}
+
+\textbf{First derivative/gradient}
+
+\begin{itemize}
+\tightlist
+\item
+  Instantaneous slope of a point (rate of change of the function)
+\item
+  If we have multiple input variables (multiple x's), then we need to know the gradient in the direction of each of the x's (partial derivatives). The matrix of partial first derivatives is called \textbf{the Jacobian}.
+\end{itemize}
+
+\textbf{Second derivative}
+
+\begin{itemize}
+\tightlist
+\item
+  Tells me the `curvature' of a function.
+\item
+  Rate of change of the first derivative.
+\item
+  If we have multiple input variables (multiple x's), then the matrix of partial second derivatives is called \textbf{the Hessian}.
+\end{itemize}
+
+A comparison of first and second order derivative methods
+
+\begin{itemize}
+\tightlist
+\item
+  Second order derivative methods are generally more accurate and converge in fewer steps
+\item
+  Second order derivative methods are more resource intensive
+\item
+  Sometimes it is easy and cheap to calculate the Hessian\ldots{}(generalized linear models with canonical link), so why not?
+\item
+  Sometimes it is expensive though.
+\item
+  There is a tradeoff here that is context dependent.
+\end{itemize}
+
+\textbf{Why not always second derivative}
+
+\begin{itemize}
+\tightlist
+\item
+  It's expensive and takes more time / resources / memory.
+\item
+  The Jacobian matrix only requires \(O(n)\) storage.
+\item
+  The Hessian matrix requires \(O(n^2)\) storage.
+\item
+  The size of the matrix grows exponentially with the size of the input data (specifically the number of columns).
+\item
+  But\ldots{}it can be more efficient if we take fewer steps, as long as the dataset isn't too big.
+\end{itemize}
+
+There is a tradeoff between the accuracy of the next step we take, and the amount of resources is take to calculate the next step.
+
+\hypertarget{first-order-derivative-methods}{%
+\section{First Order Derivative methods}\label{first-order-derivative-methods}}
+
+\hypertarget{gradient-descent}{%
+\subsection{Gradient descent}\label{gradient-descent}}
+
+\href{https://en.wikipedia.org/wiki/Gradient_descent}{Sourced from wikipedia}
+
+\begin{itemize}
+\tightlist
+\item
+  Start somewhere (initial values for X)
+\item
+  Calculate the gradient at that point
+\item
+  Take a step in the correct direction based on the gradient
+\item
+  Step size is a function of the gradient (larger gradient means larger step size)
+\item
+  Repeat.
+\item
+  Stop algorithm once it converges (within tolerance) to a single point.
+\item
+  This is \textbf{expensive}! Requires a full pass over all training data at every step\ldots{}
+\end{itemize}
+
+\hypertarget{stochastic-gradient-descent}{%
+\subsection{Stochastic gradient descent}\label{stochastic-gradient-descent}}
+
+(\url{https://en.wikipedia.org/wiki/Stochastic_gradient_descent})
+
+\begin{itemize}
+\tightlist
+\item
+  Start somewhere (initial values for X)
+\item
+  Randomly shuffle the data by row.
+\item
+  For i=1,2,3\ldots{}n, calculate the gradient \textbf{only for the i'th sample} (not the full dataset).
+\item
+  Take a step in the correct direction based on the gradient
+\item
+  Step size is a function of the gradient (larger gradient means larger step size)
+\item
+  Repeat.
+\item
+  Stop algorithm once it converges (within tolerance) to a single point.
+\item
+  This is less costly, since you don't need a full pass over the data for every step. But it is less accurate as well\ldots{}
+\end{itemize}
+
+\hypertarget{coordinate-descent}{%
+\subsection{Coordinate descent}\label{coordinate-descent}}
+
+(\url{https://en.wikipedia.org/wiki/Coordinate_descent}
+
+\begin{itemize}
+\tightlist
+\item
+  If we have multiple X values, then we optimize them by only considering a change in a single X value at a time. The step size is based on only changing one X.
+\item
+  This is useful if it is hard to calculate the gradient for all variables (the Jacobian), but easier to only work on one variable at a time.
+\item
+  This is the optimal solver for regularized GLM's (elastic net regression).
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Start somewhere (initial values for X)
+  \item
+    Choose one of the X's (coordinates), change the value (your step).
+  \item
+    Calculate the objective function. Next round, change a different X.
+  \item
+    Repeat.
+  \item
+    Stop algorithm once it converges (within tolerance) to a single point.
+  \end{itemize}
+\end{itemize}
+
+Reference to \href{https://web.stanford.edu/~hastie/Papers/glmnet.pdf}{Regularization Paths for Generalized Linear Models via Coordinate Descent}
+
+\hypertarget{second-order-derivative-methods}{%
+\section{Second Order Derivative methods}\label{second-order-derivative-methods}}
+
+\hypertarget{iteratively-reweighted-least-squares-irls}{%
+\subsection{Iteratively reweighted least squares (IRLS)}\label{iteratively-reweighted-least-squares-irls}}
+
+\begin{itemize}
+\tightlist
+\item
+  This is the most popular in data science frameworks.
+\item
+  This is efficient and accurate for generalized linear models (logistic regression, Poisson regression etc\ldots{})
+\item
+  The Hessian matrix (second derivative) gives us information about the uncertainty of the solution. This is where our confidence intervals and p-values come from!
+\end{itemize}
+
+\hypertarget{newton-raphson-optimization-and-fisher-scoring}{%
+\subsection{Newton-Raphson optimization and Fisher Scoring}\label{newton-raphson-optimization-and-fisher-scoring}}
+
+\begin{itemize}
+\tightlist
+\item
+  More general cases of IRLS. These are identical when applied to GLM's, so you often see the terms interchanged when talking about GLM's. These are not necessarily identical outside of GLM's.
+\item
+  Second-order methods are sometimes termed `Newton methods'
+\end{itemize}
+
+\hypertarget{limited-memory-broyden-fletcher-goldfarb-shanno-l-bfgs}{%
+\subsection{Limited-memory Broyden-Fletcher-Goldfarb-Shanno (L-BFGS)}\label{limited-memory-broyden-fletcher-goldfarb-shanno-l-bfgs}}
+
+Technically first order since it does not evaluate the Hessian.
+
+\begin{itemize}
+\tightlist
+\item
+  However, it does approximate the Hessian by storing the prior gradient evaluations!
+\item
+  So we get some idea of the rate of change of the gradient by looking at the trend of the prior gradients.
+\item
+  This is termed `quasi-Newton' since we approximate the Hessian without actually incurring the full cost
+\end{itemize}
+
+Orthant-Wise Limited-memory Quasi-Newton (OWL-QN) is an extension to this that effectively optimizes regularized regression (L1 or elastic net). This is implemented in Apache Spark.
+
+\hypertarget{l-bfgs-versus-irls-for-glms}{%
+\subsection{L-BFGS Versus IRLS for GLM's}\label{l-bfgs-versus-irls-for-glms}}
+
+\begin{itemize}
+\tightlist
+\item
+  Both can be implemented in parallel by calculating chunks of rows at a time.
+\item
+  Consider m rows and n columns\ldots{}the IRLS algorithm requires an NxN matrix be generated no matter how small we make M by chunking by row.
+\item
+  So if we have a large number of columns, IRLS can underperform (take too long / too much memory), even in distributed environments.
+\item
+  L-BFGS is more efficient for a large number of columns. But, it is generally less accurate (Takes more steps).
+\end{itemize}
+
+\hypertarget{close-thoughts}{%
+\section{Close thoughts}\label{close-thoughts}}
+
+\begin{itemize}
+\tightlist
+\item
+  Choice of optimization method is important!
+\item
+  Depending on how large your data is, or how complex your objective function is, you may have to try different optimization methods.
+\item
+  If the optimization method you choose does not give you estimates about the uncertainty of the solution (I.E. confidence intervals and p-values), you may be able to get that from a direct Hessian calculation once you have declared the optimal solution to be found.
+\end{itemize}
+
 \hypertarget{introduction-1}{%
 \chapter{Introduction}\label{introduction-1}}
+
+\hypertarget{introduction-2}{%
+\chapter{Introduction}\label{introduction-2}}
+
+\hypertarget{introduction-3}{%
+\chapter{Introduction}\label{introduction-3}}
 
 \bibliography{bib/bib.bib}
 

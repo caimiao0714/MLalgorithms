@@ -1,0 +1,146 @@
+# Continuous optimization
+
+Points to learn in continuous optimization:
+
+- Understand first and second derivatives and the role they play in optimizing continuous functions. 
+- Understand general steps in continuous optimization
+- Contrast 1st order versus 2nd order derivative optimization methods
+- Extend these thoughts to the distributed computing context
+
+
+Things to consider for smart steps:
+
+- Initialization value: where should I start?
+- Direction of the gradient: what direction should I we step towards?
+- Step size: how big of a step should we take?
+
+
+
+## First and second derivative methods
+
+**First derivative/gradient**
+
+- Instantaneous slope of a point (rate of change of the function)
+- If we have multiple input variables (multiple x’s), then we need to know the gradient in the direction of each of the x’s (partial derivatives). The matrix of partial first derivatives is called **the Jacobian**.
+
+
+**Second derivative**
+
+- Tells me the ‘curvature’ of a function. 
+- Rate of change of the first derivative. 
+- If we have multiple input variables (multiple x’s), then the matrix of partial second derivatives is called **the Hessian**.
+
+A comparison of first and second order derivative methods
+
+- Second order derivative methods are generally more accurate and converge in fewer steps
+- Second order derivative methods are more resource intensive
+- Sometimes it is easy and cheap to calculate the Hessian…(generalized linear models with canonical link), so why not?
+- Sometimes it is expensive though. 
+- There is a tradeoff here that is context dependent. 
+
+**Why not always second derivative**
+
+- It’s expensive and takes more time / resources / memory. 
+- The Jacobian matrix only requires $O(n)$ storage. 
+- The Hessian matrix requires $O(n^2)$ storage.
+- The size of the matrix grows exponentially with the size of the input data (specifically the number of columns). 
+- But…it can be more efficient if we take fewer steps, as long as the dataset isn’t too big. 
+
+There is a tradeoff between the accuracy of the next step we take, and the amount of resources is take to calculate the next step. 
+
+
+
+
+## First Order Derivative methods
+
+### Gradient descent
+
+[Sourced from wikipedia](https://en.wikipedia.org/wiki/Gradient_descent)
+
+- Start somewhere (initial values for X)
+- Calculate the gradient at that point
+- Take a step in the correct direction based on the gradient
+- Step size is a function of the gradient (larger gradient means larger step size)
+- Repeat. 
+- Stop algorithm once it converges (within tolerance) to a single point. 
+- This is **expensive**! Requires a full pass over all training data at every step…
+
+
+### Stochastic gradient descent 
+
+(https://en.wikipedia.org/wiki/Stochastic_gradient_descent)
+
+- Start somewhere (initial values for X)
+- Randomly shuffle the data by row. 
+- For i=1,2,3…n, calculate the gradient __only for the i’th sample__ (not the full dataset). 
+- Take a step in the correct direction based on the gradient
+- Step size is a function of the gradient (larger gradient means larger step size)
+- Repeat. 
+- Stop algorithm once it converges (within tolerance) to a single point. 
+- This is less costly, since you don’t need a full pass over the data for every step. But it is less accurate as well…
+
+
+### Coordinate descent 
+
+(https://en.wikipedia.org/wiki/Coordinate_descent
+
+- If we have multiple X values, then we optimize them by only considering a change in a single X value at a time. The step size is based on only changing one X. 
+- This is useful if it is hard to calculate the gradient for all variables (the Jacobian), but easier to only work on one variable at a time. 
+- This is the optimal solver for regularized GLM’s (elastic net regression). 
+  - Start somewhere (initial values for X)
+  - Choose one of the X’s (coordinates), change the value (your step). 
+  - Calculate the objective function. Next round, change a different X. 
+  - Repeat. 
+  - Stop algorithm once it converges (within tolerance) to a single point. 
+
+Reference to [Regularization Paths for Generalized Linear Models via Coordinate Descent](https://web.stanford.edu/~hastie/Papers/glmnet.pdf)
+
+
+
+
+
+## Second Order Derivative methods
+
+### Iteratively reweighted least squares (IRLS)
+
+- This is the most popular in data science frameworks. 
+- This is efficient and accurate for generalized linear models (logistic regression, Poisson regression etc…)
+- The Hessian matrix (second derivative) gives us information about the uncertainty of the solution. This is where our confidence intervals and p-values come from!
+
+
+### Newton-Raphson optimization and Fisher Scoring
+
+- More general cases of IRLS. These are identical when applied to GLM’s, so you often see the terms interchanged when talking about GLM’s. These are not necessarily identical outside of GLM’s. 
+- Second-order methods are sometimes termed ‘Newton methods’ 
+
+
+### Limited-memory Broyden-Fletcher-Goldfarb-Shanno (L-BFGS)
+
+Technically first order since it does not evaluate the Hessian. 
+
+- However, it does approximate the Hessian by storing the prior gradient evaluations! 
+- So we get some idea of the rate of change of the gradient by looking at the trend of the prior gradients. 
+- This is termed ‘quasi-Newton’ since we approximate the Hessian without actually incurring the full cost
+
+Orthant-Wise Limited-memory Quasi-Newton (OWL-QN) is an extension to this that effectively optimizes regularized regression (L1 or elastic net). This is implemented in Apache Spark.  
+
+
+### L-BFGS Versus IRLS for GLM’s
+
+- Both can be implemented in parallel by calculating chunks of rows at a time. 
+- Consider m rows and n columns…the IRLS algorithm requires an NxN matrix be generated no matter how small we make M by chunking by row.
+- So if we have a large number of columns, IRLS can underperform (take too long / too much memory), even in distributed environments. 
+- L-BFGS is more efficient for a large number of columns. But, it is generally less accurate (Takes more steps). 
+
+
+## Close thoughts
+
+- Choice of optimization method is important! 
+- Depending on how large your data is, or how complex your objective function is, you may have to try different optimization methods. 
+- If the optimization method you choose does not give you estimates about the uncertainty of the solution (I.E. confidence intervals and p-values), you may be able to get that from a direct Hessian calculation once you have declared the optimal solution to be found. 
+
+
+
+
+
+
