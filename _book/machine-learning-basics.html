@@ -5,11 +5,11 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>第3章 Discrete optimization | Machine learning Algorithms</title>
+  <title>第5章 Machine learning basics | Machine learning Algorithms</title>
   <meta name="description" content="机器学习和贝叶斯统计主流算法。">
   <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
-  <meta property="og:title" content="第3章 Discrete optimization | Machine learning Algorithms" />
+  <meta property="og:title" content="第5章 Machine learning basics | Machine learning Algorithms" />
   <meta property="og:type" content="book" />
   
   
@@ -17,7 +17,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="第3章 Discrete optimization | Machine learning Algorithms" />
+  <meta name="twitter:title" content="第5章 Machine learning basics | Machine learning Algorithms" />
   
   <meta name="twitter:description" content="机器学习和贝叶斯统计主流算法。" />
   
@@ -32,8 +32,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="introduction.html">
-<link rel="next" href="continuous-optimization.html">
+<link rel="prev" href="continuous-optimization.html">
+<link rel="next" href="mcmc-and-variational-inference.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -117,95 +117,165 @@
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="discrete-optimization" class="section level1">
-<h1><span class="header-section-number">第3章</span> Discrete optimization</h1>
-<p>Most of the concepts are explain in Chapter 4 Numerical Computation from the Deep Learning book <a href="https://www.deeplearningbook.org/contents/numerical.html">https://www.deeplearningbook.org/contents/numerical.html</a>.
-The other useful resource is <a href="http://cs231n.github.io/">CS231m Convolutional Neural Networks</a> for Visual Recognition by Stanford University</p>
-<p>The <strong>objective function</strong> allows us to measure how “good” any given solution to the problem is.
-We seek to maximize or minimize the objective function.</p>
-<p><strong>Derivative/gradient</strong> based methods keep going “uphill” until they are at the top of the h</p>
-<div id="heuristic-and-metaheuristic-methods" class="section level2">
-<h2><span class="header-section-number">3.1</span> Heuristic and metaheuristic methods</h2>
+<div id="machine-learning-basics" class="section level1">
+<h1><span class="header-section-number">第5章</span> Machine learning basics</h1>
 <blockquote>
-<p>a <strong>heuristic</strong> is a technique designed for solving a problem more quickly when classic methods are too slow, or for finding an approximate solution when classic methods fail to find any exact solution.</p>
+<p>Machine learning is essentially a form of applied statistics with increased emphasis on the use of computers to statistically estimate complicated functions and a decreased emphasis on proving confidence intervals around those functions</p>
 </blockquote>
 <blockquote>
-<p>Wikipedia</p>
+<p>– Deep Learning Book</p>
 </blockquote>
-<p>Heuristic methods do not guarantee to find the global optimal solution (best solution)!
-Instead, they seek to find <strong>a best available solution, given the resource spent looking for it</strong>.
-A <strong>heuristic method</strong> is <strong>geared towards a specific problem</strong>.</p>
-<blockquote>
-<p>a <strong>metaheuristic</strong> is a higher-level procedure or heuristic designed to find, generate, or select a heuristic (partial search algorithm) that may provide a sufficiently good solution to an optimization problem, especially with incomplete or imperfect information or limited computation capacity. Metaheuristics sample a set of solutions which is too large to be completely sampled. Metaheuristics may make few assumptions about the optimization problem being solved, and so they may be usable for a variety of problems</p>
-</blockquote>
-<blockquote>
-<p>– Wikipedia</p>
-</blockquote>
-<p>A metaheuristic method is like a heuristic, but generalizable to a broad class of problems.</p>
+<ul>
+<li>Using data, develop a ‘learning algorithm’ (our model).</li>
+<li>Often the focus is prediction of an outcome, given inputs.</li>
+<li>Finding patterns in the data versus finding generalizable trends in the data.</li>
+</ul>
+<div id="what-do-we-need-to-develop-a-learning-algorithm" class="section level2">
+<h2><span class="header-section-number">5.1</span> What do we need to develop a learning algorithm?</h2>
+<ul>
+<li>Data</li>
+<li>Model</li>
+<li>Cost function</li>
+<li>Optimization function</li>
+</ul>
+</div>
+<div id="classification-regression-and-clustering" class="section level2">
+<h2><span class="header-section-number">5.2</span> Classification, regression, and clustering</h2>
 <ol style="list-style-type: decimal">
-<li>Genetic Algorithms (Holland – 1975)</li>
+<li>Classification</li>
 </ol>
 <ul>
-<li>Natural selection / genetics based. Popular method.</li>
+<li>Predicting class membership (or probabilities) among distinct classes.</li>
+<li>Death (Yes / No)</li>
+<li>Risk Strata (Low / Medium / High)</li>
 </ul>
 <ol start="2" style="list-style-type: decimal">
-<li>Simulated Annealing (Kirpatrick – 1983)</li>
+<li>Regression</li>
 </ol>
 <ul>
-<li>Metallurgy annealing, find lowest energy level!</li>
+<li>Predicting a continuous summary statistic (like the mean)</li>
+<li>Hospital cost (Mean, median, 90th percentile)</li>
 </ul>
 <ol start="3" style="list-style-type: decimal">
-<li>Particle Swarm Optimization (Eberhart Kennedy - 1995)</li>
+<li>Clustering</li>
 </ol>
 <ul>
-<li>Based on insect behavior, swarming towards optimal location (food). Less common in discrete spaces. originally proposed for continuous spaces.</li>
+<li>Identifying clusters in our data.</li>
+<li>Project data into smaller dimensionality.</li>
+<li>Clustering can be discrete or continuous.</li>
 </ul>
-<ol start="4" style="list-style-type: decimal">
-<li>Tabu Search (Al-Sultan – 1999)</li>
-</ol>
+<p>Central challenge to ML: <strong>generalization</strong>.</p>
+<p>The algorithm must perform well on new data it has never seen before</p>
 <ul>
-<li>Search for best neighborhood solution, then find new neighborhood. Prior neighborhoods are forbidden (tabu)</li>
-</ul>
-<p>General meta-heuristics traits</p>
-<ul>
-<li>Evaluate many potential optimal solutions.</li>
-<li>Evaluate the fitness of each solution based on a cost (objective) function.</li>
-<li>Use some concept of stochastic (random) movement to generate new solutions from the parameter space.</li>
-<li>Use some set of rules to determine where to move next in the parameter space.</li>
-<li>Declare convergence once some set of criteria has been met. Perhaps no improvement for X iterations.</li>
+<li>Next years data</li>
+<li>New healthcare system</li>
+<li>New patients</li>
 </ul>
 </div>
-<div id="genetic-algorithm-and-simulated-annealing-as-examples" class="section level2">
-<h2><span class="header-section-number">3.2</span> Genetic algorithm and simulated Annealing as examples</h2>
-<p><strong>Genetic algorithm</strong>: need to explore large portions of the parameter space at random. Concept of “neighbor” is vague.</p>
-<p><a href="https://toddwschneider.com/posts/traveling-salesman-with-simulated-annealing-r-and-shiny/">A nice shiny app</a></p>
-<p>An GA example: Since a new treatment for Hep C has become available, where is the optimal place to locate limited new Hep C resources, considering where our patients live?</p>
-<p>The problem become intractable with large number of locations and resources: How many combinations of patients and clinics can I calculate the full feature space for to find a maximum?</p>
+<div id="underoverfitting-and-out-of-sample-data" class="section level2">
+<h2><span class="header-section-number">5.3</span> Under/overfitting and out of sample data</h2>
+<p>Given the data we have, how good is our model?</p>
 <ul>
-<li>Exact Solution is NP-Hard</li>
-<li>Calculations = <span class="math inline">\(n^{\sqrt{k}}\)</span></li>
-<li>I conveniently stopped my analysis at 6 sites with ~5k patients, requiring 1,149,712,053 distance calculations (I have a big server)</li>
-<li>The “k-center” problem</li>
+<li>This is really just optimization.</li>
+<li><em>Training error</em> is how well we fit the training data.</li>
+<li>Increased performance here sometimes decreases performance outside of our sample of data (<em>overfitting</em>)</li>
 </ul>
-<p><strong>Simulated Annealing</strong>:</p>
+<p>In ML, we target generalization error</p>
 <ul>
-<li>The concept of a ‘neighbor’ is strong.</li>
-<li>Can be sensitive to parameter choice, or algorithm gets stuck in global minima!</li>
-<li>Generally, you should try both to see what works best. Hard to guess up front.</li>
+<li><em>Generalization error</em> is how well our algorithm fits data outside our sample.</li>
+<li>But we don’t have any data outside our sample…</li>
+<li>Can we pretend we do?</li>
 </ul>
 </div>
-<div id="constrains" class="section level2">
-<h2><span class="header-section-number">3.3</span> Constrains</h2>
-<p>Hard constraints</p>
+<div id="validation-approaches" class="section level2">
+<h2><span class="header-section-number">5.4</span> Validation approaches</h2>
 <ul>
-<li>If this constraint is violated, we have invalid solution.</li>
-<li>Labor laws, number of nurses available, etc</li>
+<li>If the new data does not come from the same data-generating distribution as the observed data, full stop.</li>
+<li>If we assume the new data comes from the same data-generating distribution, then we can implement validation approaches.
+<ul>
+<li>Create multiple random samples from the data we have</li>
+<li>Call one ‘training data’ and one ‘Validation’ data.</li>
+<li>Actually we usually split into training / validation / testing (3 splits).</li>
+</ul></li>
+<li>Optimization goal:
+<ul>
+<li>Minimize training error (high error = underfitting)</li>
+<li>Minimize gap between training and testing error (big gap = overfitting)</li>
+</ul></li>
 </ul>
-<p>Soft Constraints</p>
+<p>Creative Validation Approaches:</p>
 <ul>
-<li>These are nice to meet if possible (included in cost function somehow), but if they are not met the solution is still valid.</li>
-<li>Nurse prefers to only work X night shifts per month.</li>
-<li>Leave requests.</li>
+<li>Splitting by clusters.
+<ul>
+<li>Split by year, region, etc</li>
+</ul></li>
+<li>Cross validation</li>
+</ul>
+<p>Balancing under and overfitting:</p>
+<ul>
+<li>We can balance under and overfitting by making our model more/less complex. The deep learning book calls this <strong>model capacity</strong></li>
+<li>Increasing model capacity generally allows the model to fit more nuanced relationships.
+<ul>
+<li>In linear modeling – add more inputs, consider non-linear terms (polynomials), consider interactions…</li>
+</ul></li>
+<li>What is the downside of increased model capacity?</li>
+</ul>
+<p>Model parsimony</p>
+<blockquote>
+<p>Among competing hypotheses that explain known observations equally well, choose the simplest one.</p>
+</blockquote>
+<blockquote>
+<ul>
+<li>Occam’s razor (c. 1287-1347)</li>
+</ul>
+</blockquote>
+</div>
+<div id="regularization" class="section level2">
+<h2><span class="header-section-number">5.5</span> Regularization</h2>
+<ul>
+<li>Hard code preferences into the model.
+<ul>
+<li>I prefer Beta’s close to or equal to zero (parsimony)</li>
+<li>However, if I find enough support for a relationship, it can stay.</li>
+<li>How to I hard code that into my model?</li>
+<li>What is an example you have learned of this in ML?</li>
+</ul></li>
+</ul>
+<blockquote>
+<p><strong>Regularization</strong> is any modification we make to a learning algorithm that is intended to reduce its <strong>generalization error not it’s training error</strong>.’</p>
+</blockquote>
+</div>
+<div id="hyperparameter-tuning" class="section level2">
+<h2><span class="header-section-number">5.6</span> Hyperparameter tuning</h2>
+<ul>
+<li>Hyperparameters are ‘knobs’ we can use to tune an ML algorithm</li>
+<li>We do not learn these from the training data, because…
+<ul>
+<li>It is too hard/impossible to optimize them directly OR</li>
+<li>Their intent is to decrease generalization error (not training error), so it is not appropriate to learn them from the training data. Why is this true?</li>
+</ul></li>
+<li>We often have multiple hyperparameters, and wish to tune across all of them. This is referred to as the ‘hyperparameter grid’.</li>
+</ul>
+</div>
+<div id="binary-classification-models-in-scikit-learn" class="section level2">
+<h2><span class="header-section-number">5.7</span> Binary classification models in scikit-learn</h2>
+<ul>
+<li>Logistic regression</li>
+<li>Elastic net logistic regression (regularized)</li>
+<li>Support Vector Machine</li>
+<li>General SGD estimation (sklearn), it can specify different loss functions</li>
+<li>Nearest neighbor majority vote (non-parametric)</li>
+<li>Random forests
+<ul>
+<li>Fully grown trees (not weak learners). Low bias, high variance per tree</li>
+<li>Grow many trees (maybe in parallel?) to reduce variance.</li>
+</ul></li>
+<li>Gradient boosting machine
+<ul>
+<li>Forest of weak learner trees (high bias, low variance)</li>
+<li>Correct bias each new sequence.</li>
+<li>Sequential method!</li>
+</ul></li>
 </ul>
 
 </div>
@@ -215,8 +285,8 @@ A <strong>heuristic method</strong> is <strong>geared towards a specific problem
           </div>
         </div>
       </div>
-<a href="introduction.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="continuous-optimization.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="continuous-optimization.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="mcmc-and-variational-inference.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

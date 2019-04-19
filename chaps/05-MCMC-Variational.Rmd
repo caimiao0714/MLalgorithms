@@ -1,0 +1,11 @@
+# MCMC and variational inference
+
+## MCMC
+
+## Variational inference
+
+
+[https://ermongroup.github.io/cs228-notes/inference/variational/](https://ermongroup.github.io/cs228-notes/inference/variational/)
+
+
+[Variational Inference: A Review for Statisticians](https://arxiv.org/pdf/1601.00670.pdf)

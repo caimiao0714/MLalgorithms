@@ -136,7 +136,7 @@
 
 \title{{\fontsize{26}{30}\selectfont \textbf{Machine learning Algorithms}}}
 \author{蔡苗\footnote{Department of Epidemiology and Biostatistics, College for Public Health and Social Justice, Saint Louis University. Email: \url{miao.cai@slu.edu}}}
-\date{2019-04-18}
+\date{2019-04-19}
 
 \begin{document}
 \maketitle
@@ -172,6 +172,7 @@ This book works as a notebook to summarize the algorithms used in Bayesian infer
 \chapter{Discrete optimization}\label{discrete-optimization}}
 
 Most of the concepts are explain in Chapter 4 Numerical Computation from the Deep Learning book \url{https://www.deeplearningbook.org/contents/numerical.html}.
+The other useful resource is \href{http://cs231n.github.io/}{CS231m Convolutional Neural Networks} for Visual Recognition by Stanford University
 
 The \textbf{objective function} allows us to measure how ``good'' any given solution to the problem is.
 We seek to maximize or minimize the objective function.
@@ -363,8 +364,8 @@ Things to consider for smart steps:
   Step size: how big of a step should we take?
 \end{itemize}
 
-\hypertarget{first-and-second-derivative}{%
-\section{First and second derivative}\label{first-and-second-derivative}}
+\hypertarget{first-and-second-derivative-methods}{%
+\section{First and second derivative methods}\label{first-and-second-derivative-methods}}
 
 \textbf{First derivative/gradient}
 
@@ -576,14 +577,316 @@ Orthant-Wise Limited-memory Quasi-Newton (OWL-QN) is an extension to this that e
   If the optimization method you choose does not give you estimates about the uncertainty of the solution (I.E. confidence intervals and p-values), you may be able to get that from a direct Hessian calculation once you have declared the optimal solution to be found.
 \end{itemize}
 
+\hypertarget{machine-learning-basics}{%
+\chapter{Machine learning basics}\label{machine-learning-basics}}
+
+\begin{quote}
+Machine learning is essentially a form of applied statistics with increased emphasis on the use of computers to statistically estimate complicated functions and a decreased emphasis on proving confidence intervals around those functions
+\end{quote}
+
+\begin{quote}
+-- Deep Learning Book
+\end{quote}
+
+\begin{itemize}
+\tightlist
+\item
+  Using data, develop a `learning algorithm' (our model).
+\item
+  Often the focus is prediction of an outcome, given inputs.
+\item
+  Finding patterns in the data versus finding generalizable trends in the data.
+\end{itemize}
+
+\hypertarget{what-do-we-need-to-develop-a-learning-algorithm}{%
+\section{What do we need to develop a learning algorithm?}\label{what-do-we-need-to-develop-a-learning-algorithm}}
+
+\begin{itemize}
+\tightlist
+\item
+  Data
+\item
+  Model
+\item
+  Cost function
+\item
+  Optimization function
+\end{itemize}
+
+\hypertarget{classification-regression-and-clustering}{%
+\section{Classification, regression, and clustering}\label{classification-regression-and-clustering}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Classification
+\end{enumerate}
+
+\begin{itemize}
+\tightlist
+\item
+  Predicting class membership (or probabilities) among distinct classes.
+\item
+  Death (Yes / No)
+\item
+  Risk Strata (Low / Medium / High)
+\end{itemize}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  Regression
+\end{enumerate}
+
+\begin{itemize}
+\tightlist
+\item
+  Predicting a continuous summary statistic (like the mean)
+\item
+  Hospital cost (Mean, median, 90th percentile)
+\end{itemize}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  Clustering
+\end{enumerate}
+
+\begin{itemize}
+\tightlist
+\item
+  Identifying clusters in our data.
+\item
+  Project data into smaller dimensionality.
+\item
+  Clustering can be discrete or continuous.
+\end{itemize}
+
+Central challenge to ML: \textbf{generalization}.
+
+The algorithm must perform well on new data it has never seen before
+
+\begin{itemize}
+\tightlist
+\item
+  Next years data
+\item
+  New healthcare system
+\item
+  New patients
+\end{itemize}
+
+\hypertarget{underoverfitting-and-out-of-sample-data}{%
+\section{Under/overfitting and out of sample data}\label{underoverfitting-and-out-of-sample-data}}
+
+Given the data we have, how good is our model?
+
+\begin{itemize}
+\tightlist
+\item
+  This is really just optimization.
+\item
+  \emph{Training error} is how well we fit the training data.
+\item
+  Increased performance here sometimes decreases performance outside of our sample of data (\emph{overfitting})
+\end{itemize}
+
+In ML, we target generalization error
+
+\begin{itemize}
+\tightlist
+\item
+  \emph{Generalization error} is how well our algorithm fits data outside our sample.
+\item
+  But we don't have any data outside our sample\ldots{}
+\item
+  Can we pretend we do?
+\end{itemize}
+
+\hypertarget{validation-approaches}{%
+\section{Validation approaches}\label{validation-approaches}}
+
+\begin{itemize}
+\tightlist
+\item
+  If the new data does not come from the same data-generating distribution as the observed data, full stop.
+\item
+  If we assume the new data comes from the same data-generating distribution, then we can implement validation approaches.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Create multiple random samples from the data we have
+  \item
+    Call one `training data' and one `Validation' data.
+  \item
+    Actually we usually split into training / validation / testing (3 splits).
+  \end{itemize}
+\item
+  Optimization goal:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Minimize training error (high error = underfitting)
+  \item
+    Minimize gap between training and testing error (big gap = overfitting)
+  \end{itemize}
+\end{itemize}
+
+Creative Validation Approaches:
+
+\begin{itemize}
+\tightlist
+\item
+  Splitting by clusters.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Split by year, region, etc
+  \end{itemize}
+\item
+  Cross validation
+\end{itemize}
+
+Balancing under and overfitting:
+
+\begin{itemize}
+\tightlist
+\item
+  We can balance under and overfitting by making our model more/less complex. The deep learning book calls this \textbf{model capacity}
+\item
+  Increasing model capacity generally allows the model to fit more nuanced relationships.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    In linear modeling -- add more inputs, consider non-linear terms (polynomials), consider interactions\ldots{}
+  \end{itemize}
+\item
+  What is the downside of increased model capacity?
+\end{itemize}
+
+Model parsimony
+
+\begin{quote}
+Among competing hypotheses that explain known observations equally well, choose the simplest one.
+\end{quote}
+
+\begin{quote}
+\begin{itemize}
+\tightlist
+\item
+  Occam's razor (c.~1287-1347)
+\end{itemize}
+\end{quote}
+
+\hypertarget{regularization}{%
+\section{Regularization}\label{regularization}}
+
+\begin{itemize}
+\tightlist
+\item
+  Hard code preferences into the model.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    I prefer Beta's close to or equal to zero (parsimony)
+  \item
+    However, if I find enough support for a relationship, it can stay.
+  \item
+    How to I hard code that into my model?
+  \item
+    What is an example you have learned of this in ML?
+  \end{itemize}
+\end{itemize}
+
+\begin{quote}
+\textbf{Regularization} is any modification we make to a learning algorithm that is intended to reduce its \textbf{generalization error not it's training error}.'
+\end{quote}
+
+\hypertarget{hyperparameter-tuning}{%
+\section{Hyperparameter tuning}\label{hyperparameter-tuning}}
+
+\begin{itemize}
+\tightlist
+\item
+  Hyperparameters are `knobs' we can use to tune an ML algorithm
+\item
+  We do not learn these from the training data, because\ldots{}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    It is too hard/impossible to optimize them directly OR
+  \item
+    Their intent is to decrease generalization error (not training error), so it is not appropriate to learn them from the training data. Why is this true?
+  \end{itemize}
+\item
+  We often have multiple hyperparameters, and wish to tune across all of them. This is referred to as the `hyperparameter grid'.
+\end{itemize}
+
+\hypertarget{binary-classification-models-in-scikit-learn}{%
+\section{Binary classification models in scikit-learn}\label{binary-classification-models-in-scikit-learn}}
+
+\begin{itemize}
+\tightlist
+\item
+  Logistic regression
+\item
+  Elastic net logistic regression (regularized)
+\item
+  Support Vector Machine
+\item
+  General SGD estimation (sklearn), it can specify different loss functions
+\item
+  Nearest neighbor majority vote (non-parametric)
+\item
+  Random forests
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Fully grown trees (not weak learners). Low bias, high variance per tree
+  \item
+    Grow many trees (maybe in parallel?) to reduce variance.
+  \end{itemize}
+\item
+  Gradient boosting machine
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Forest of weak learner trees (high bias, low variance)
+  \item
+    Correct bias each new sequence.
+  \item
+    Sequential method!
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{mcmc-and-variational-inference}{%
+\chapter{MCMC and variational inference}\label{mcmc-and-variational-inference}}
+
+\hypertarget{mcmc}{%
+\section{MCMC}\label{mcmc}}
+
+\hypertarget{variational-inference}{%
+\section{Variational inference}\label{variational-inference}}
+
+\url{https://ermongroup.github.io/cs228-notes/inference/variational/}
+
+\href{https://arxiv.org/pdf/1601.00670.pdf}{Variational Inference: A Review for Statisticians}
+
 \hypertarget{introduction-1}{%
 \chapter{Introduction}\label{introduction-1}}
-
-\hypertarget{introduction-2}{%
-\chapter{Introduction}\label{introduction-2}}
-
-\hypertarget{introduction-3}{%
-\chapter{Introduction}\label{introduction-3}}
 
 \bibliography{bib/bib.bib}
 

@@ -1,6 +1,7 @@
 # Discrete optimization
 
 Most of the concepts are explain in Chapter 4 Numerical Computation from the Deep Learning book [https://www.deeplearningbook.org/contents/numerical.html](https://www.deeplearningbook.org/contents/numerical.html).
+The other useful resource is [CS231m Convolutional Neural Networks](http://cs231n.github.io/) for Visual Recognition by Stanford University
 
 The **objective function** allows us to measure how "good" any given solution to the problem is. 
 We seek to  maximize or minimize the objective function.
