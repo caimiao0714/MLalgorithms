@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>第3章 Optimization | Machine learning Algorithms</title>
+  <meta name="description" content="机器学习和贝叶斯统计主流算法。">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="第3章 Optimization | Machine learning Algorithms" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="机器学习和贝叶斯统计主流算法。" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="第3章 Optimization | Machine learning Algorithms" />
+  
+  <meta name="twitter:description" content="机器学习和贝叶斯统计主流算法。" />
+  
+
+<meta name="author" content="蔡苗">
+
+
+<meta name="date" content="2019-04-18">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="introduction.html">
+<link rel="next" href="introduction-1.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="style\gitbook.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="1" data-path="preface.html"><a href="preface.html"><i class="fa fa-check"></i><b>1</b> Preface</a></li>
+<li class="chapter" data-level="2" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>2</b> Introduction</a></li>
+<li class="chapter" data-level="3" data-path="optimization.html"><a href="optimization.html"><i class="fa fa-check"></i><b>3</b> Optimization</a><ul>
+<li class="chapter" data-level="3.1" data-path="optimization.html"><a href="optimization.html#discrete-optimization"><i class="fa fa-check"></i><b>3.1</b> Discrete optimization</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="optimization.html"><a href="optimization.html#heuristic-and-metaheuristic-methods"><i class="fa fa-check"></i><b>3.1.1</b> Heuristic and metaheuristic methods</a></li>
+<li class="chapter" data-level="3.1.2" data-path="optimization.html"><a href="optimization.html#genetic-algorithm-and-simulated-annealing-as-examples"><i class="fa fa-check"></i><b>3.1.2</b> Genetic algorithm and simulated Annealing as examples</a></li>
+<li class="chapter" data-level="3.1.3" data-path="optimization.html"><a href="optimization.html#constrains"><i class="fa fa-check"></i><b>3.1.3</b> Constrains</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="introduction-1.html"><a href="introduction-1.html"><i class="fa fa-check"></i><b>4</b> Introduction</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Machine learning Algorithms</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="optimization" class="section level1">
+<h1><span class="header-section-number">第3章</span> Optimization</h1>
+<div id="discrete-optimization" class="section level2">
+<h2><span class="header-section-number">3.1</span> Discrete optimization</h2>
+<p>The <strong>objective function</strong> allows us to measure how “good” any given solution to the problem is.
+We seek to maximize or minimize the objective function.</p>
+<p><strong>Derivative/gradient</strong> based methods keep going “uphill” until they are at the top of the h</p>
+<div id="heuristic-and-metaheuristic-methods" class="section level3">
+<h3><span class="header-section-number">3.1.1</span> Heuristic and metaheuristic methods</h3>
+<blockquote>
+<p>“a <strong>heuristic</strong> is a technique designed for solving a problem more quickly when classic methods are too slow, or for finding an approximate solution when classic methods fail to find any exact solution.”</p>
+</blockquote>
+<blockquote>
+<p>Wikipedia</p>
+</blockquote>
+<p>Heuristic methods do not guarantee to find the global optimal solution (best solution)!
+Instead, they seek to find <strong>a best available solution, given the resource spent looking for it</strong>.
+A <strong>heuristic method</strong> is <strong>geared towards a specific problem</strong>.</p>
+<blockquote>
+<p>a <strong>metaheuristic</strong> is a higher-level procedure or heuristic designed to find, generate, or select a heuristic (partial search algorithm) that may provide a sufficiently good solution to an optimization problem, especially with incomplete or imperfect information or limited computation capacity. Metaheuristics sample a set of solutions which is too large to be completely sampled. Metaheuristics may make few assumptions about the optimization problem being solved, and so they may be usable for a variety of problems</p>
+</blockquote>
+<blockquote>
+<p>– Wikipedia</p>
+</blockquote>
+<p>A metaheuristic method is like a heuristic, but generalizable to a broad class of problems.</p>
+<ol style="list-style-type: decimal">
+<li>Genetic Algorithms (Holland – 1975)</li>
+</ol>
+<ul>
+<li>Natural selection / genetics based. Popular method.</li>
+</ul>
+<ol start="2" style="list-style-type: decimal">
+<li>Simulated Annealing (Kirpatrick – 1983)</li>
+</ol>
+<ul>
+<li>Metallurgy annealing, find lowest energy level!</li>
+</ul>
+<ol start="3" style="list-style-type: decimal">
+<li>Particle Swarm Optimization (Eberhart Kennedy - 1995)</li>
+</ol>
+<ul>
+<li>Based on insect behavior, swarming towards optimal location (food). Less common in discrete spaces. originally proposed for continuous spaces.</li>
+</ul>
+<ol start="4" style="list-style-type: decimal">
+<li>Tabu Search (Al-Sultan – 1999)</li>
+</ol>
+<ul>
+<li>Search for best neighborhood solution, then find new neighborhood. Prior neighborhoods are forbidden (tabu)</li>
+</ul>
+<p>General meta-heuristics traits</p>
+<ul>
+<li>Evaluate many potential optimal solutions.</li>
+<li>Evaluate the fitness of each solution based on a cost (objective) function.</li>
+<li>Use some concept of stochastic (random) movement to generate new solutions from the parameter space.</li>
+<li>Use some set of rules to determine where to move next in the parameter space.</li>
+<li>Declare convergence once some set of criteria has been met. Perhaps no improvement for X iterations.</li>
+</ul>
+</div>
+<div id="genetic-algorithm-and-simulated-annealing-as-examples" class="section level3">
+<h3><span class="header-section-number">3.1.2</span> Genetic algorithm and simulated Annealing as examples</h3>
+<p><strong>Genetic algorithm</strong>: need to explore large portions of the parameter space at random. Concept of “neighbor” is vague.</p>
+<p><a href="https://toddwschneider.com/posts/traveling-salesman-with-simulated-annealing-r-and-shiny/">A nice shiny app</a></p>
+<p>An GA example: Since a new treatment for Hep C has become available, where is the optimal place to locate limited new Hep C resources, considering where our patients live?</p>
+<p>The problem become intractable with large number of locations and resources: How many combinations of patients and clinics can I calculate the full feature space for to find a maximum?</p>
+<ul>
+<li>Exact Solution is NP-Hard</li>
+<li>Calculations = <span class="math inline">\(n^{\sqrt{k}}\)</span></li>
+<li>I conveniently stopped my analysis at 6 sites with ~5k patients, requiring 1,149,712,053 distance calculations (I have a big server)</li>
+<li>The “k-center” problem</li>
+</ul>
+<p><strong>Simulated Annealing</strong>:</p>
+<ul>
+<li>The concept of a ‘neighbor’ is strong.</li>
+<li>Can be sensitive to parameter choice, or algorithm gets stuck in global minima!</li>
+<li>Generally, you should try both to see what works best. Hard to guess up front.</li>
+</ul>
+</div>
+<div id="constrains" class="section level3">
+<h3><span class="header-section-number">3.1.3</span> Constrains</h3>
+<p>Hard constraints</p>
+<ul>
+<li>If this constraint is violated, we have invalid solution.</li>
+<li>Labor laws, number of nurses available, etc</li>
+</ul>
+<p>Soft Constraints</p>
+<ul>
+<li>These are nice to meet if possible (included in cost function somehow), but if they are not met the solution is still valid.</li>
+<li>Nurse prefers to only work X night shifts per month.</li>
+<li>Leave requests.</li>
+</ul>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="introduction.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="introduction-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["MLalgorithms.pdf"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

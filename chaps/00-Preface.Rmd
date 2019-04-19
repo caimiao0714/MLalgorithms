@@ -1,0 +1,5 @@
+# Preface
+
+This book works as a notebook to summarize the algorithms used in Bayesian inference and machine learning.
+
+\mainmatter
