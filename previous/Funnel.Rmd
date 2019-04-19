@@ -1,0 +1,210 @@
+---
+title: "漏斗型后验分布"
+author: "Miao Cai <miao.cai@slu.edu>"
+date: "2018年11月10日"
+header-includes:
+  - \usepackage[UTF8]{ctex}
+  - \usepackage{url}
+output: 
+  pdf_document:
+    number_sections: true
+link-citations: yes
+linkcolor: blue
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# 漏斗型后验分布
+
+假设以下多水平结构：
+
+\begin{align*}
+\log \sigma & \sim N(0, 1.5)\\
+\beta_n & \sim N(0, \sigma)
+\end{align*}
+
+```{r funnel}
+ndraws = 5000
+set.seed(666)
+
+log_sigma = rnorm(n = ndraws, mean = 0, sd = 1.5)
+bn = rnorm(n = ndraws, mean = 0, sd = exp(log_sigma))
+
+dat = data.frame(log_sigma, bn)
+
+require(ggplot2)
+
+ggplot(dat, aes(x = bn, y = log_sigma)) + geom_point(alpha = 0.4)
+```
+
+
+# 非中心参数化
+
+\begin{align*}
+\log \sigma & \sim N(0, 1.5)\\
+\beta_n^{\text{std}} & \sim N(0, 1)\\
+\beta_n & = \sigma * \beta_n^{\text{std}}
+\end{align*}
+
+此种非中心参数化形式能够有效移除先验分布中$\beta$与$\sigma$的相互依赖关系。非中心参数化形式也被成为“马特技巧”（由Matt Hoffman发明）。
+
+```{r noncenter}
+log_sigma = rnorm(n = ndraws, mean = 0, sd = 1.5)
+bstdn = rnorm(n = ndraws, mean = 0, sd = 1)
+bn = exp(log_sigma)*bstdn
+
+dat = data.frame(log_sigma, bn)
+
+require(ggplot2)
+
+ggplot(dat, aes(x = bn, y = log_sigma)) + geom_point(alpha = 0.4)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

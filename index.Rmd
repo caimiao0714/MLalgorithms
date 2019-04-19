@@ -1,0 +1,66 @@
+--- 
+title: "Machine learning Algorithms"
+author: "蔡苗^[Department of Epidemiology and Biostatistics, College for Public Health and Social Justice, Saint Louis University. Email: [miao.cai@slu.edu](miao.cai@slu.edu)]"
+date: "`r Sys.Date()`"
+output:
+  bookdown::html_document2:
+    theme: yeti
+    css: style/style.css
+#    css: style/tufte.css
+    toc: true
+    toc_float: true
+    number_sections: true
+    df_print: paged
+    code_folding: show
+  bookdown::gitbook:
+    css: style/gitbook.css
+    fontsettings:
+      family: sans
+    sharing:
+      facebook: yes
+      twitter: yes
+      google: no
+      linkedin: no
+      weibo: no
+  bookdown::pdf_book:
+    keep_tex: yes
+    dev: "cairo_pdf"
+    latex_engine: xelatex
+    citation_package: natbib
+#    template: tex/template_yihui_zh.tex
+    template: tex/MiaoTEX.tex
+    pandoc_args:  --top-level-division=chapter
+    toc_depth: 3
+    toc_unnumbered: no
+    toc_appendix: yes
+    number_sections: true
+    quote_footer: ["\\begin{flushright}", "\\end{flushright}"]
+bookdown::epub_book: default
+bookdown::kindlegen(): default
+documentclass: ctexbook
+bibliography: [bib/bib.bib]
+link-citations: yes
+colorlinks: no
+lot: yes
+lof: yes
+geometry:
+- b5paper
+- paperwidth=17.6cm
+- paperheight=25cm
+- tmargin=3.2cm
+- bmargin=3.2cm
+- lmargin=2.5cm
+- rmargin=2.5cm
+site: bookdown::bookdown_site
+description: "机器学习和贝叶斯统计主流算法。"
+csl: gb2005.csl
+#github-repo: yihui/bookdown-chinese
+#cover-image: images/cover.jpg
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, cache = TRUE)
+options(width = 55)
+```
+

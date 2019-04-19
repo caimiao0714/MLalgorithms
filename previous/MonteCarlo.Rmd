@@ -1,0 +1,82 @@
+---
+title: "Monte Carlo"
+author: "Miao Cai"
+date: "November 13, 2018"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Exponential distribution
+
+The pdf of the exponential distribution is:
+
+\[
+f(x) = \frac{1}{\theta}\exp(-\frac{x}{\theta})
+\]
+
+The cdf of the exponential distribution is:
+\[
+F(x) = 1 - \exp(-\frac{x}{\theta})
+\]
+
+```{r exp}
+set.seed(666)
+
+Dexp = function(x) return(0.2*exp(-0.2*x))
+
+n = 1^6
+vecX = runif(n, 3, 5)
+
+mcvalue = mean(Dexp(vecX)*vecX)
+
+realsol = pexp(q = 5, rate = 0.2) - pexp(q = 3, rate = 0.2)
+```
+
+
+
+
+```{r}
+#       Declaring the desired function
+f = function(x){return(exp(x))}
+#       Declaring the absolute error function
+error = function(x,y){return(abs(x-y))}
+#       The actual integral answer
+ans = exp(5)-exp(3)
+
+set.seed(6971)
+#       number of iterations
+n = 10^2
+#       simulated uniform data
+x= runif(n,3,5)
+#       MonteCarlo approximation
+MCa= (5-3)*mean(f(x))
+#       Approximation error
+e = error(ans,MCa)
+
+rest =  data.frame(n = n,MCapprox = MCa,ans = ans, error = e)
+set.seed(6971)
+for(k in 5*(1:100)){
+  n = k*10^4
+  x = runif(n,3,5)
+  mca = (5-3)*mean(f(x))
+  rest = rbind(rest,c(n,mca,ans, error(ans,mca) ) )
+
+}
+
+require(tidyr)
+require(tidyverse)
+
+rest %>% select(-error) %>% 
+  gather(key = method, value = value, -n) %>% 
+  ggplot(aes(n, value, color = method)) + 
+  geom_point() + geom_line() + theme_bw() +
+  coord_cartesian(xlim = c(0.1, 10^7))
+
+rest %>% select(n, error) %>% 
+  ggplot(aes(n, error)) + geom_line(size=.5) + 
+  geom_ribbon(aes(ymin=0,ymax = error), fill = "green", alpha=0.3) + theme_bw()
+```
+
