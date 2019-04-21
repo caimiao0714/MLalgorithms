@@ -136,7 +136,7 @@
 
 \title{{\fontsize{26}{30}\selectfont \textbf{Machine learning Algorithms}}}
 \author{蔡苗\footnote{Department of Epidemiology and Biostatistics, College for Public Health and Social Justice, Saint Louis University. Email: \url{miao.cai@slu.edu}}}
-\date{2019-04-19}
+\date{2019-04-20}
 
 \begin{document}
 \maketitle
@@ -875,18 +875,59 @@ Among competing hypotheses that explain known observations equally well, choose 
 \hypertarget{mcmc-and-variational-inference}{%
 \chapter{MCMC and variational inference}\label{mcmc-and-variational-inference}}
 
+In MCMC, we construct ergodic Markov chains whose stationary distribution is the posterior distribution. Instead of using \textbf{sampling}, variational inference uses \textbf{optimization} to approximate the posterior distribution, which is better suited when applied to large data or complex models.
+
+MCMC and VI are different approaches to solve the sample question. MCMC is more computationally intensive but guarantees producing exact samples from the target density (it is guaranteed to find a global optimal solution\footnote{\url{https://ermongroup.github.io/cs228-notes/inference/variational/}}). VI takes advantage of methods such as stochastic optimization and distributed optimization, so it is preferred if we want to fit model to a large dataset. VI will almost never find the globally optimal solution, but we will always know if it converged, and we will hav bounds on its accuracy.
+
 \hypertarget{mcmc}{%
 \section{MCMC}\label{mcmc}}
 
 \hypertarget{variational-inference}{%
 \section{Variational inference}\label{variational-inference}}
 
-\url{https://ermongroup.github.io/cs228-notes/inference/variational/}
+Variational inference (VI) first posits a family of densities, and then find a member of that family that is close to the target density, where the closeness is evaluated by Kullback--Leibler divergence \citep{blei2017variational}. Compared with MCMC, VI methods tends to be faster and easier to use in terms of large data, but it generally \textbf{underestimates} the variance of the posterior density due as a consequence of its objective function.
 
-\href{https://arxiv.org/pdf/1601.00670.pdf}{Variational Inference: A Review for Statisticians}
+Steps to perform VI:
 
-\hypertarget{introduction-1}{%
-\chapter{Introduction}\label{introduction-1}}
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  posit a family of approximate densities \(Q\)
+\item
+  find a member of that family that minimizes the Kullback-Leibler (KL) divergence to the exact posterior
+\item
+  approximate the posterior with the optimized member of the family \(q^{\star}(.)\).
+\end{enumerate}
+
+The KL divergence of two distributions \(q\) and \(p\) with discrete support is:
+
+\[KL(q||p) = \sum_xq(x)\log \frac{q(x)}{p(x)}\]
+
+One of the key ideas behind VI is to choose \(Q\) to be \emph{flexible enough} to capture a density close to \(p(\theta|x)\), but \emph{simple enough} for efficient optimization.
+
+The aims of modern VI:
+
+\begin{itemize}
+\tightlist
+\item
+  tackling Bayesian inference problems that involve massive data,
+\item
+  using improved optimization methods for solving equation 1, which is ususally subject to local minima,
+\item
+  develop generic VI algorithms that apply to a wide class of models
+\item
+  increase the accuracy of VI
+\end{itemize}
+
+\textbf{Mean-field VI}
+
+\textbf{coordinate-ascent optimization}
+
+\textbf{stochastic VI}
+
+\hypertarget{undecided}{%
+\chapter{undecided}\label{undecided}}
 
 \bibliography{bib/bib.bib}
 

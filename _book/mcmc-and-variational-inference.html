@@ -25,7 +25,7 @@
 <meta name="author" content="蔡苗">
 
 
-<meta name="date" content="2019-04-19">
+<meta name="date" content="2019-04-20">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -33,7 +33,7 @@
   
   
 <link rel="prev" href="machine-learning-basics.html">
-<link rel="next" href="introduction-1.html">
+<link rel="next" href="undecided.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -99,7 +99,7 @@
 <li class="chapter" data-level="6.1" data-path="mcmc-and-variational-inference.html"><a href="mcmc-and-variational-inference.html#mcmc"><i class="fa fa-check"></i><b>6.1</b> MCMC</a></li>
 <li class="chapter" data-level="6.2" data-path="mcmc-and-variational-inference.html"><a href="mcmc-and-variational-inference.html#variational-inference"><i class="fa fa-check"></i><b>6.2</b> Variational inference</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="introduction-1.html"><a href="introduction-1.html"><i class="fa fa-check"></i><b>7</b> Introduction</a></li>
+<li class="chapter" data-level="7" data-path="undecided.html"><a href="undecided.html"><i class="fa fa-check"></i><b>7</b> undecided</a></li>
 </ul>
 
       </nav>
@@ -119,15 +119,47 @@
             <section class="normal" id="section-">
 <div id="mcmc-and-variational-inference" class="section level1">
 <h1><span class="header-section-number">第6章</span> MCMC and variational inference</h1>
+<p>In MCMC, we construct ergodic Markov chains whose stationary distribution is the posterior distribution. Instead of using <strong>sampling</strong>, variational inference uses <strong>optimization</strong> to approximate the posterior distribution, which is better suited when applied to large data or complex models.</p>
+<p>MCMC and VI are different approaches to solve the sample question. MCMC is more computationally intensive but guarantees producing exact samples from the target density (it is guaranteed to find a global optimal solution<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>). VI takes advantage of methods such as stochastic optimization and distributed optimization, so it is preferred if we want to fit model to a large dataset. VI will almost never find the globally optimal solution, but we will always know if it converged, and we will hav bounds on its accuracy.</p>
 <div id="mcmc" class="section level2">
 <h2><span class="header-section-number">6.1</span> MCMC</h2>
 </div>
 <div id="variational-inference" class="section level2">
 <h2><span class="header-section-number">6.2</span> Variational inference</h2>
-<p><a href="https://ermongroup.github.io/cs228-notes/inference/variational/">https://ermongroup.github.io/cs228-notes/inference/variational/</a></p>
-<p><a href="https://arxiv.org/pdf/1601.00670.pdf">Variational Inference: A Review for Statisticians</a></p>
+<p>Variational inference (VI) first posits a family of densities, and then find a member of that family that is close to the target density, where the closeness is evaluated by Kullback–Leibler divergence<span class="citation"><sup>[<a href="#ref-blei2017variational">1</a>]</sup></span>. Compared with MCMC, VI methods tends to be faster and easier to use in terms of large data, but it generally <strong>underestimates</strong> the variance of the posterior density due as a consequence of its objective function.</p>
+<p>Steps to perform VI:</p>
+<ol style="list-style-type: decimal">
+<li>posit a family of approximate densities <span class="math inline">\(Q\)</span></li>
+<li>find a member of that family that minimizes the Kullback-Leibler (KL) divergence to the exact posterior</li>
+<li>approximate the posterior with the optimized member of the family <span class="math inline">\(q^{\star}(.)\)</span>.</li>
+</ol>
+<p>The KL divergence of two distributions <span class="math inline">\(q\)</span> and <span class="math inline">\(p\)</span> with discrete support is:</p>
+<p><span class="math display">\[KL(q||p) = \sum_xq(x)\log \frac{q(x)}{p(x)}\]</span></p>
+<p>One of the key ideas behind VI is to choose <span class="math inline">\(Q\)</span> to be <em>flexible enough</em> to capture a density close to <span class="math inline">\(p(\theta|x)\)</span>, but <em>simple enough</em> for efficient optimization.</p>
+<p>The aims of modern VI:</p>
+<ul>
+<li>tackling Bayesian inference problems that involve massive data,</li>
+<li>using improved optimization methods for solving equation 1, which is ususally subject to local minima,</li>
+<li>develop generic VI algorithms that apply to a wide class of models</li>
+<li>increase the accuracy of VI</li>
+</ul>
+<p><strong>Mean-field VI</strong></p>
+<p><strong>coordinate-ascent optimization</strong></p>
+<p><strong>stochastic VI</strong></p>
 
 </div>
+</div>
+<h3> undecided</h3>
+<div id="refs" class="references">
+<div id="ref-blei2017variational">
+<p>[1] BLEI D M, KUCUKELBIR A, MCAULIFFE J D. Variational inference: A review for statisticians[J]. Journal of the American Statistical Association, Taylor &amp; Francis, 2017, 112(518): 859–877.</p>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="2">
+<li id="fn2"><p><a href="https://ermongroup.github.io/cs228-notes/inference/variational/">https://ermongroup.github.io/cs228-notes/inference/variational/</a><a href="mcmc-and-variational-inference.html#fnref2" class="footnote-back">↩</a></p></li>
+</ol>
 </div>
             </section>
 
@@ -135,7 +167,7 @@
         </div>
       </div>
 <a href="machine-learning-basics.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="introduction-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="undecided.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
