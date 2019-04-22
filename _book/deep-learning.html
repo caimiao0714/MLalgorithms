@@ -5,11 +5,11 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>第9章 undecided | Machine learning Algorithms</title>
+  <title>第7章 Deep learning | Machine learning Algorithms</title>
   <meta name="description" content="机器学习和贝叶斯统计主流算法。">
   <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
-  <meta property="og:title" content="第9章 undecided | Machine learning Algorithms" />
+  <meta property="og:title" content="第7章 Deep learning | Machine learning Algorithms" />
   <meta property="og:type" content="book" />
   
   
@@ -17,7 +17,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="第9章 undecided | Machine learning Algorithms" />
+  <meta name="twitter:title" content="第7章 Deep learning | Machine learning Algorithms" />
   
   <meta name="twitter:description" content="机器学习和贝叶斯统计主流算法。" />
   
@@ -32,8 +32,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="mcmc-and-variational-inference.html">
-
+<link rel="prev" href="decision-trees.html">
+<link rel="next" href="mcmc-and-variational-inference.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -126,29 +126,29 @@
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="undecided" class="section level1">
-<h1><span class="header-section-number">第9章</span> undecided</h1>
+<div id="deep-learning" class="section level1">
+<h1><span class="header-section-number">第7章</span> Deep learning</h1>
+<div id="deep-feed-forward-neural-network-dnn" class="section level2">
+<h2><span class="header-section-number">7.1</span> Deep Feed-Forward Neural Network (DNN)</h2>
+<p>A DNN, aka multilayer perceptrons (MLPs) is composed with multiple non-linear transformation layers, which is used to classify some outcome <span class="math inline">\(y\)</span>.
+The output of each layer is fed to the next layer as input.</p>
+</div>
+<div id="recurrent-neural-network-rnn" class="section level2">
+<h2><span class="header-section-number">7.2</span> Recurrent Neural Network (RNN)</h2>
+<p>In order to handle <em>sequential or temporal</em> data of <strong>arbitrary length</strong> and capture temporal information from the data, recurrent neural network (RNN) models are widely used.
+Unlike feedforward neural network models, RNN models perform the same operation at each time step of the sequence input, and feed the output to the next time step as part of the input.
+Thus, RNN models are able to memorize what they have seen before and benefit from shared model weights (parameters) for all time steps.
+In order to capture complex long temporal dependency and avoid vanishing gradient problems, some modified RNN models such as Long ShortTerm Memory (LSTM) and Gated Recurrent Unit (GRU) have been proposed with state-of-the-art performance.</p>
 
-<div id="refs" class="references">
-<div>
-<p>[1] BLEI D M, KUCUKELBIR A, MCAULIFFE J D. Variational inference: A review for statisticians[J]. Journal of the American Statistical Association, Taylor &amp; Francis, 2017, 112(518): 859–877.</p>
 </div>
 </div>
-</div>
-
-
-
-
-
-
-
             </section>
 
           </div>
         </div>
       </div>
-<a href="mcmc-and-variational-inference.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="decision-trees.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="mcmc-and-variational-inference.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

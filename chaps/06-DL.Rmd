@@ -1,0 +1,22 @@
+# Deep learning
+
+
+## Deep Feed-Forward Neural Network (DNN)
+
+A DNN, aka multilayer perceptrons (MLPs) is composed with multiple non-linear transformation layers, which is used to classify some outcome $y$.
+The output of each layer is fed to the next layer as input.
+
+
+
+
+
+## Recurrent Neural Network (RNN)
+
+In order to handle _sequential or temporal_ data of **arbitrary length** and capture temporal information from the data, recurrent neural network (RNN) models are widely used.
+Unlike feedforward neural network models, RNN models perform the same operation at each time step of the sequence input, and feed the output to the next time step as part of the input.
+Thus, RNN models are able to memorize what they have seen before and benefit from shared model weights (parameters) for all time steps.
+In order to capture complex long temporal dependency and avoid vanishing gradient problems, some modified RNN models such as Long ShortTerm Memory (LSTM) and Gated Recurrent Unit (GRU) have been proposed with state-of-the-art performance.
+
+
+
+

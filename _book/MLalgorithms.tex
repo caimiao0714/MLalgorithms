@@ -136,7 +136,7 @@
 
 \title{{\fontsize{26}{30}\selectfont \textbf{Machine learning Algorithms}}}
 \author{蔡苗\footnote{Department of Epidemiology and Biostatistics, College for Public Health and Social Justice, Saint Louis University. Email: \url{miao.cai@slu.edu}}}
-\date{2019-04-20}
+\date{2019-04-21}
 
 \begin{document}
 \maketitle
@@ -449,13 +449,175 @@ There is a tradeoff between the accuracy of the next step we take, and the amoun
   This is \textbf{expensive}! Requires a full pass over all training data at every step\ldots{}
 \end{itemize}
 
-\hypertarget{stochastic-gradient-descent}{%
-\subsection{Stochastic gradient descent}\label{stochastic-gradient-descent}}
+\textbf{Batch and Mini-batch optimization}
+
+\begin{itemize}
+\tightlist
+\item
+  Decomposing optimization into a sum
+\item
+  Estimating the gradient versus calculating the full gradient
+\item
+  \textbf{Batch gradient methods}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Use the entire training set to calculate the gradient at each step.
+  \end{itemize}
+\item
+  \textbf{Stochastic (online) gradient methods}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Only use a single example (row) at a time to estimate the gradient.
+  \end{itemize}
+\item
+  \textbf{Minibatch gradient methods}:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Use more than one, but less than the full training dataset to estimate the gradient.
+  \item
+    These are sometimes also called `stochastic methods'.
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{batch-gradient-descent}{%
+\subsection{Batch Gradient Descent}\label{batch-gradient-descent}}
+
+\begin{itemize}
+\tightlist
+\item
+  Algorithm:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Start with some initial values for W
+  \item
+    Using the full training dataset (batch), calculate the gradient (all partial derivatives for each W)
+  \item
+    Take a step `downhill' for each W using the gradient information.
+  \item
+    Step size is a function of the learning rate (learning rate is a constant here)
+  \item
+    Stop taking steps once you are at the minimum (convergence)
+  \end{itemize}
+\item
+  You must try different learning rates.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Too slow (small steps), and it never converges.
+  \item
+    Too fast, and it jumps around the minimum and may oscillate further away.
+  \end{itemize}
+\item
+  This can take a long time, since it requires a full data pass every step.
+\end{itemize}
+
+\textbf{Mini-batch size choice}
+
+\begin{itemize}
+\tightlist
+\item
+  The larger the batch, the better the estimate of the gradient.
+\item
+  Very small batches are not more efficient than slightly larger batches due to computational overhead on parallel frameworks.
+\item
+  Memory requirements scale with simultaneous batch evaluation.
+\item
+  Small batches can have a regularizing effect (decrease generalization error).
+\item
+  First order methods (only use gradient, no Hessian!) can handle smaller minibatch sizes (100+)
+\item
+  Second order methods (estimating the Hessian) need more data to get reliable estimates of the Hessian, so larger minibatch sizes are needed (10K +)
+\item
+  MiniBatches must be randomly selected, so each new minibatch is an i.i.d. sample from the training data. (shuffle your data!)
+\end{itemize}
+
+\textbf{Multiple passes through the data}
+
+\begin{itemize}
+\tightlist
+\item
+  On the first pass through a shuffled dataset, we are using each minibatch to compute an unbiased estimate of the generalization error.
+\item
+  However, most implementations will make multiple passes over the data. This `resampling' starts to bias the estimate of generalization error.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    However, training error is decreased on subsequent passes through the data.
+  \item
+    Each pass over the datasets is considered one epoch
+  \item
+    Epoch: one complete presentation of the dataset to our algorithm.
+  \end{itemize}
+\end{itemize}
+
+\textbf{Challenges in optimization}
+
+\begin{itemize}
+\tightlist
+\item
+  ill- conditioning of the Hessian or gradient matrix
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Condition number: how much the output value of a function may change for a small change in the input values. Ill-conditioned = high condition number.
+  \end{itemize}
+\item
+  Local minima / saddle points
+\item
+  Steep cliffs, exploding gradients
+\end{itemize}
+
+\textbf{Convex versus non-convex optimization}
+
+\begin{itemize}
+\tightlist
+\item
+  Convex optimization:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Easy! General linear models, etc
+  \item
+    No local minima.
+  \item
+    Convergence usually happens.
+  \item
+    (Hyper) parameter tuning is about getting better results
+  \end{itemize}
+\item
+  Non-convex optimization:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Hard.
+  \item
+    Deep learning usually exhibits this (more on this later in the course).
+  \item
+    Parameter tuning enables convergence!
+  \item
+    Stochastic gradient descent is a popular method for this\ldots{}
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{stochastic-online-gradient-descent}{%
+\subsection{Stochastic (online) gradient descent}\label{stochastic-online-gradient-descent}}
 
 (\url{https://en.wikipedia.org/wiki/Stochastic_gradient_descent})
 
 \begin{itemize}
-\tightlist
 \item
   Start somewhere (initial values for X)
 \item
@@ -472,6 +634,51 @@ There is a tradeoff between the accuracy of the next step we take, and the amoun
   Stop algorithm once it converges (within tolerance) to a single point.
 \item
   This is less costly, since you don't need a full pass over the data for every step. But it is less accurate as well\ldots{}
+\item
+  Most used optimization method for deep learning (and possibly machine learning in general on larger datasets)
+\item
+  Instead of using the full dataset at every step, only take a sample of data from the training data to use (a `mini-batch').
+\item
+  Scales well to bigger datasets, since mini-batch size can be constant.
+\item
+  Provides an estimate of the gradient based on this sample of data.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Advantage: more and more data has decreasing returns in estimating the gradient, so mini-batch instead of batch makes sense.
+  \item
+    Disadvantage: There is a new source of variance being introduced -- minibatch random sample variance. This source of variance does not decrease as the algorithm get's closer to convergence.This means the final solution is good, but may not be optimal (just in the neighborhood of optimal).
+  \end{itemize}
+\end{itemize}
+
+\textbf{Minibatch sample variance}
+
+\begin{itemize}
+\tightlist
+\item
+  This `jumping around behavior' can be an advantage, as this may escape a local minimum or saddle.
+\item
+  But the downside is we never reach the minimum, because we keep jumping around it\ldots{}
+\item
+  One solution is to decrease the learning rate as the algorithm proceeds, enforcing smaller steps as the algorithm proceeds. This is in contrast to keeping the learning rate constant, which we did in Batch gradient descent. This change is called the `learning rate schedule'.
+\end{itemize}
+
+\textbf{Learning Rate Schedule}
+
+\begin{itemize}
+\tightlist
+\item
+  The learning rate schedule is different depending on the software you use!
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Can be constant or decreasing by some function.
+  \end{itemize}
+\item
+  Check the docs for sklearn (1.3.6.1) --
+  \url{https://scikit-learn.org/0.15/modules/sgd.html\#sgd}
 \end{itemize}
 
 \hypertarget{coordinate-descent}{%
@@ -871,6 +1078,32 @@ Among competing hypotheses that explain known observations equally well, choose 
     Sequential method!
   \end{itemize}
 \end{itemize}
+
+\hypertarget{decision-trees}{%
+\chapter{Decision trees}\label{decision-trees}}
+
+\hypertarget{random-forest}{%
+\section{Random forest}\label{random-forest}}
+
+\hypertarget{xgboost}{%
+\section{xgboost}\label{xgboost}}
+
+\hypertarget{deep-learning}{%
+\chapter{Deep learning}\label{deep-learning}}
+
+\hypertarget{deep-feed-forward-neural-network-dnn}{%
+\section{Deep Feed-Forward Neural Network (DNN)}\label{deep-feed-forward-neural-network-dnn}}
+
+A DNN, aka multilayer perceptrons (MLPs) is composed with multiple non-linear transformation layers, which is used to classify some outcome \(y\).
+The output of each layer is fed to the next layer as input.
+
+\hypertarget{recurrent-neural-network-rnn}{%
+\section{Recurrent Neural Network (RNN)}\label{recurrent-neural-network-rnn}}
+
+In order to handle \emph{sequential or temporal} data of \textbf{arbitrary length} and capture temporal information from the data, recurrent neural network (RNN) models are widely used.
+Unlike feedforward neural network models, RNN models perform the same operation at each time step of the sequence input, and feed the output to the next time step as part of the input.
+Thus, RNN models are able to memorize what they have seen before and benefit from shared model weights (parameters) for all time steps.
+In order to capture complex long temporal dependency and avoid vanishing gradient problems, some modified RNN models such as Long ShortTerm Memory (LSTM) and Gated Recurrent Unit (GRU) have been proposed with state-of-the-art performance.
 
 \hypertarget{mcmc-and-variational-inference}{%
 \chapter{MCMC and variational inference}\label{mcmc-and-variational-inference}}
