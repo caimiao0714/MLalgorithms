@@ -1082,11 +1082,262 @@ Among competing hypotheses that explain known observations equally well, choose 
 \hypertarget{decision-trees}{%
 \chapter{Decision trees}\label{decision-trees}}
 
+Supervised machine learning review
+
+\begin{itemize}
+\tightlist
+\item
+  Given input X, predict target Y
+\item
+  Come up with model that is a function if inputs (X) and model parameters (\(\theta\))
+\item
+  Training goal -- learn the model parameters (\(\theta\)) that gives the best model
+\item
+  Must define an objective function to optimize model. This is a function of \emph{training loss} and \emph{regularization}:
+  \[obj(\theta) = L(\theta) + \Omega(\theta)\]
+\item
+  Different objective (loss) functions can be used:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Linear model - mean square error
+    \[L(\theta) = \sum(y_i - \hat{y})^2\]
+  \item
+    Logistic loss
+    \[L(\theta) = \sum [y_i ln(1 + e^{-y_i}) + (1-y_i)ln(1 + e^{\hat{y}_i})]\]
+  \end{itemize}
+\end{itemize}
+
 \hypertarget{random-forest}{%
 \section{Random forest}\label{random-forest}}
 
+\begin{itemize}
+\tightlist
+\item
+  Grow uncorrelated deep trees. \textbf{Embassingly parallel} -\textgreater{} \textbf{high performance}
+\item
+  Each tree definitely overfits the data (but in different ways)
+\item
+  The large number of trees and stochastic nature of each tree hopefully averages out the differences.
+\item
+  Not much parameter tuning required here.
+\end{itemize}
+
+This is generally called `bagging': generate a bag of fully developed trees -- the population vote is a good prediction.
+
+\hypertarget{gradient-boosting-machine-gbm}{%
+\section{Gradient boosting machine (GBM)}\label{gradient-boosting-machine-gbm}}
+
+\begin{itemize}
+\tightlist
+\item
+  Forward learning ensemble method.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Increasingly refine the model step by step to get good predictions.  sequential model and cannot be parallelized.
+  \item
+    Sequential in nature -- next step requires prior step (for each tree).
+  \end{itemize}
+\item
+  Use gradient descent to update predictions based on a learning rate.
+\item
+  \textbf{`Boosting' instead of `bagging'}.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    This method creates an ensemble of weak learners.
+  \end{itemize}
+\item
+  As we grow trees, implement regularization to avoid overfitting.
+\end{itemize}
+
+The idea of GBM:
+
+\begin{itemize}
+\tightlist
+\item
+  Fit a simple model
+\item
+  Analyze the errors (residuals) from that simple model
+\item
+  Update the model to better predict the residuals
+\item
+  Analyze the new errors.
+\item
+  Repeat\ldots{}
+\item
+  \textbf{Well-tuned GBM is almost always better than RFT.}
+\end{itemize}
+
+\textbf{GBM Parameter tuning}
+
+Primarily about bias-variance tradeoff
+
+\begin{itemize}
+\tightlist
+\item
+  Balance model complexity and predictive power.
+\item
+  Tree size -- the deeper the tree, the more complex the model
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Max\_depth/Max\_leaf\_nodes -- control the size of each tree
+  \end{itemize}
+\item
+  Regularization
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Learning rate (eta) -- step size shrinkage during updates (prevents overfitting)
+  \item
+    Lambda -- more regularization in xgboost)
+  \end{itemize}
+\item
+  Total number of trees in the ensemble
+\end{itemize}
+
 \hypertarget{xgboost}{%
 \section{xgboost}\label{xgboost}}
+
+\hypertarget{python-packages}{%
+\section{Python packages}\label{python-packages}}
+
+\hypertarget{dask-ml}{%
+\subsection{\texorpdfstring{\texttt{dask-ml}}{dask-ml}}\label{dask-ml}}
+
+\url{http://ml.dask.org/}
+
+\begin{itemize}
+\tightlist
+\item
+  Generalized linear models
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Linear, logistic, Poisson
+  \item
+    L1 and L2 regularization
+  \item
+    Newton optimization method, gradient descent, lbfgs
+  \end{itemize}
+\item
+  GBM's through the xgboost library
+\item
+  Somewhat immature at this point.
+\item
+  I prefer to use Dask for bigger than memory data transformations rather than ML.
+\end{itemize}
+
+\hypertarget{apache-spark-ml}{%
+\subsection{\texorpdfstring{\texttt{Apache\ Spark\ ML}}{Apache Spark ML}}\label{apache-spark-ml}}
+
+\begin{itemize}
+\tightlist
+\item
+  Seems robust? Many models available
+
+  \begin{itemize}
+  \tightlist
+  \item
+    GBM, Random Forest, GLM, survival analysis, SVM, multilayer perceptron
+  \end{itemize}
+\item
+  Mllib -- `new' API based on Dataframes
+
+  \begin{itemize}
+  \tightlist
+  \item
+    `old' RDD based API is deprecated.
+  \end{itemize}
+\item
+  Some benchmarks indicate Apache Spark ML is very slow compared to it's peers.
+\item
+  However, Spark is a popular cluster technology, so perhaps your company has a cluster available\ldots{}
+\item
+  Python or R API's, in addition to Scala and Java
+\end{itemize}
+
+\hypertarget{h2o}{%
+\subsection{\texorpdfstring{\texttt{h2o}}{h2o}}\label{h2o}}
+
+\begin{quote}
+`H2O is an open source, in-memory, distributed, fast, and scalable machine learning and predictive analytics platform that allows you to build machine learning models on big data and provides easy productionalization of those models in an enterprise environment.'
+\end{quote}
+
+\begin{quote}
+-- from the docs
+\end{quote}
+
+\begin{itemize}
+\item
+  H2o seems to be a leader in productionalizing models post development.
+\item
+  GUI Flow browser in addition to Python and R API
+\item
+  Cox proportional hazards models
+\item
+  Deep learning models
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Supports feed forward artificial neural networks
+  \item
+    Does not support recurrent neural networks (RNN) or convolutional neural networks (CNN)
+  \item
+    RNN -\textgreater{} time series or 1-d data, CNN considers covariance and relationships among different pixels.
+  \end{itemize}
+\item
+  Generalized linear models
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Gaussian, Poisson, binomial, multinomial, gamma, ordinal, negative binomial
+  \item
+    L1/L2/Elastic net -- can compute regularization path!
+  \item
+    IRLS, L\_BFGS, coordinate descent, gradient descent
+  \end{itemize}
+\item
+  Distributed random forest
+\item
+  Generalized boosting machines
+\item
+  XGBoost
+\item
+  AutoML
+\item
+  Some clustering as well
+
+  \begin{itemize}
+  \tightlist
+  \item
+    K-means
+  \item
+    Principal component analysis
+  \item
+    Generalized low rank models
+  \end{itemize}
+\end{itemize}
+
+\textbf{\texttt{h2o} checkpoint}
+
+\begin{itemize}
+\tightlist
+\item
+  Only available for distributed random forests, generalized boosted machine, and deep learning models (ANN)
+\item
+  Update past model estimates with new data rather than fitting a new model from scratch.
+\end{itemize}
 
 \hypertarget{deep-learning}{%
 \chapter{Deep learning}\label{deep-learning}}

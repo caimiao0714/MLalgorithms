@@ -98,7 +98,13 @@
 </ul></li>
 <li class="chapter" data-level="6" data-path="decision-trees.html"><a href="decision-trees.html"><i class="fa fa-check"></i><b>6</b> Decision trees</a><ul>
 <li class="chapter" data-level="6.1" data-path="decision-trees.html"><a href="decision-trees.html#random-forest"><i class="fa fa-check"></i><b>6.1</b> Random forest</a></li>
-<li class="chapter" data-level="6.2" data-path="decision-trees.html"><a href="decision-trees.html#xgboost"><i class="fa fa-check"></i><b>6.2</b> xgboost</a></li>
+<li class="chapter" data-level="6.2" data-path="decision-trees.html"><a href="decision-trees.html#gradient-boosting-machine-gbm"><i class="fa fa-check"></i><b>6.2</b> Gradient boosting machine (GBM)</a></li>
+<li class="chapter" data-level="6.3" data-path="decision-trees.html"><a href="decision-trees.html#xgboost"><i class="fa fa-check"></i><b>6.3</b> xgboost</a></li>
+<li class="chapter" data-level="6.4" data-path="decision-trees.html"><a href="decision-trees.html#python-packages"><i class="fa fa-check"></i><b>6.4</b> Python packages</a><ul>
+<li class="chapter" data-level="6.4.1" data-path="decision-trees.html"><a href="decision-trees.html#dask-ml"><i class="fa fa-check"></i><b>6.4.1</b> <code>dask-ml</code></a></li>
+<li class="chapter" data-level="6.4.2" data-path="decision-trees.html"><a href="decision-trees.html#apache-spark-ml"><i class="fa fa-check"></i><b>6.4.2</b> <code>Apache Spark ML</code></a></li>
+<li class="chapter" data-level="6.4.3" data-path="decision-trees.html"><a href="decision-trees.html#h2o"><i class="fa fa-check"></i><b>6.4.3</b> <code>h2o</code></a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="7" data-path="deep-learning.html"><a href="deep-learning.html"><i class="fa fa-check"></i><b>7</b> Deep learning</a><ul>
 <li class="chapter" data-level="7.1" data-path="deep-learning.html"><a href="deep-learning.html#deep-feed-forward-neural-network-dnn"><i class="fa fa-check"></i><b>7.1</b> Deep Feed-Forward Neural Network (DNN)</a></li>
@@ -128,12 +134,149 @@
             <section class="normal" id="section-">
 <div id="decision-trees" class="section level1">
 <h1><span class="header-section-number">第6章</span> Decision trees</h1>
+<p>Supervised machine learning review</p>
+<ul>
+<li>Given input X, predict target Y</li>
+<li>Come up with model that is a function if inputs (X) and model parameters (<span class="math inline">\(\theta\)</span>)</li>
+<li>Training goal – learn the model parameters (<span class="math inline">\(\theta\)</span>) that gives the best model</li>
+<li>Must define an objective function to optimize model. This is a function of <em>training loss</em> and <em>regularization</em>:
+<span class="math display">\[obj(\theta) = L(\theta) + \Omega(\theta)\]</span></li>
+<li>Different objective (loss) functions can be used:
+<ul>
+<li>Linear model - mean square error
+<span class="math display">\[L(\theta) = \sum(y_i - \hat{y})^2\]</span></li>
+<li>Logistic loss
+<span class="math display">\[L(\theta) = \sum [y_i ln(1 + e^{-y_i}) + (1-y_i)ln(1 + e^{\hat{y}_i})]\]</span></li>
+</ul></li>
+</ul>
 <div id="random-forest" class="section level2">
 <h2><span class="header-section-number">6.1</span> Random forest</h2>
+<ul>
+<li>Grow uncorrelated deep trees. <strong>Embassingly parallel</strong> -&gt; <strong>high performance</strong></li>
+<li>Each tree definitely overfits the data (but in different ways)</li>
+<li>The large number of trees and stochastic nature of each tree hopefully averages out the differences.</li>
+<li>Not much parameter tuning required here.</li>
+</ul>
+<p>This is generally called ‘bagging’: generate a bag of fully developed trees – the population vote is a good prediction.</p>
+</div>
+<div id="gradient-boosting-machine-gbm" class="section level2">
+<h2><span class="header-section-number">6.2</span> Gradient boosting machine (GBM)</h2>
+<ul>
+<li>Forward learning ensemble method.
+<ul>
+<li>Increasingly refine the model step by step to get good predictions.  sequential model and cannot be parallelized.</li>
+<li>Sequential in nature – next step requires prior step (for each tree).</li>
+</ul></li>
+<li>Use gradient descent to update predictions based on a learning rate.</li>
+<li><strong>‘Boosting’ instead of ‘bagging’</strong>.
+<ul>
+<li>This method creates an ensemble of weak learners.</li>
+</ul></li>
+<li>As we grow trees, implement regularization to avoid overfitting.</li>
+</ul>
+<p>The idea of GBM:</p>
+<ul>
+<li>Fit a simple model</li>
+<li>Analyze the errors (residuals) from that simple model</li>
+<li>Update the model to better predict the residuals</li>
+<li>Analyze the new errors.</li>
+<li>Repeat…</li>
+<li><strong>Well-tuned GBM is almost always better than RFT.</strong></li>
+</ul>
+<p><strong>GBM Parameter tuning</strong></p>
+<p>Primarily about bias-variance tradeoff</p>
+<ul>
+<li>Balance model complexity and predictive power.</li>
+<li>Tree size – the deeper the tree, the more complex the model
+<ul>
+<li>Max_depth/Max_leaf_nodes – control the size of each tree</li>
+</ul></li>
+<li>Regularization
+<ul>
+<li>Learning rate (eta) – step size shrinkage during updates (prevents overfitting)</li>
+<li>Lambda – more regularization in xgboost)</li>
+</ul></li>
+<li>Total number of trees in the ensemble</li>
+</ul>
 </div>
 <div id="xgboost" class="section level2">
-<h2><span class="header-section-number">6.2</span> xgboost</h2>
+<h2><span class="header-section-number">6.3</span> xgboost</h2>
+</div>
+<div id="python-packages" class="section level2">
+<h2><span class="header-section-number">6.4</span> Python packages</h2>
+<div id="dask-ml" class="section level3">
+<h3><span class="header-section-number">6.4.1</span> <code>dask-ml</code></h3>
+<p><a href="http://ml.dask.org/">http://ml.dask.org/</a></p>
+<ul>
+<li>Generalized linear models
+<ul>
+<li>Linear, logistic, Poisson</li>
+<li>L1 and L2 regularization</li>
+<li>Newton optimization method, gradient descent, lbfgs</li>
+</ul></li>
+<li>GBM’s through the xgboost library</li>
+<li>Somewhat immature at this point.</li>
+<li>I prefer to use Dask for bigger than memory data transformations rather than ML.</li>
+</ul>
+</div>
+<div id="apache-spark-ml" class="section level3">
+<h3><span class="header-section-number">6.4.2</span> <code>Apache Spark ML</code></h3>
+<ul>
+<li>Seems robust? Many models available
+<ul>
+<li>GBM, Random Forest, GLM, survival analysis, SVM, multilayer perceptron</li>
+</ul></li>
+<li>Mllib – ‘new’ API based on Dataframes
+<ul>
+<li>‘old’ RDD based API is deprecated.</li>
+</ul></li>
+<li>Some benchmarks indicate Apache Spark ML is very slow compared to it’s peers.</li>
+<li>However, Spark is a popular cluster technology, so perhaps your company has a cluster available…</li>
+<li>Python or R API’s, in addition to Scala and Java</li>
+</ul>
+</div>
+<div id="h2o" class="section level3">
+<h3><span class="header-section-number">6.4.3</span> <code>h2o</code></h3>
+<blockquote>
+<p>‘H2O is an open source, in-memory, distributed, fast, and scalable machine learning and predictive analytics platform that allows you to build machine learning models on big data and provides easy productionalization of those models in an enterprise environment.’</p>
+</blockquote>
+<blockquote>
+<p>– from the docs</p>
+</blockquote>
+<ul>
+<li>H2o seems to be a leader in productionalizing models post development.</li>
+<li><p>GUI Flow browser in addition to Python and R API</p></li>
+<li>Cox proportional hazards models</li>
+<li>Deep learning models
+<ul>
+<li>Supports feed forward artificial neural networks</li>
+<li>Does not support recurrent neural networks (RNN) or convolutional neural networks (CNN)</li>
+<li>RNN -&gt; time series or 1-d data, CNN considers covariance and relationships among different pixels.</li>
+</ul></li>
+<li>Generalized linear models
+<ul>
+<li>Gaussian, Poisson, binomial, multinomial, gamma, ordinal, negative binomial</li>
+<li>L1/L2/Elastic net – can compute regularization path!</li>
+<li>IRLS, L_BFGS, coordinate descent, gradient descent</li>
+</ul></li>
+<li>Distributed random forest</li>
+<li>Generalized boosting machines</li>
+<li>XGBoost</li>
+<li>AutoML</li>
+<li>Some clustering as well
+<ul>
+<li>K-means</li>
+<li>Principal component analysis</li>
+<li>Generalized low rank models</li>
+</ul></li>
+</ul>
+<p><strong><code>h2o</code> checkpoint</strong></p>
+<ul>
+<li>Only available for distributed random forests, generalized boosted machine, and deep learning models (ANN)</li>
+<li>Update past model estimates with new data rather than fitting a new model from scratch.</li>
+</ul>
 
+</div>
 </div>
 </div>
             </section>

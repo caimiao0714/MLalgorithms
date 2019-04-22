@@ -1,10 +1,128 @@
 # Decision trees
 
+Supervised machine learning review
+
+- Given input X, predict target Y
+- Come up with model that is a function if inputs (X) and model parameters ($\theta$)
+- Training goal – learn the model parameters ($\theta$) that gives the best model
+- Must define an objective function to optimize model. This is a function of *training loss* and *regularization*:
+$$obj(\theta) = L(\theta) + \Omega(\theta)$$
+- Different objective (loss) functions can be used:
+  + Linear model - mean square error
+  $$L(\theta) = \sum(y_i - \hat{y})^2$$
+  + Logistic loss
+  $$L(\theta) = \sum [y_i ln(1 + e^{-y_i}) + (1-y_i)ln(1 + e^{\hat{y}_i})]$$
+
 ## Random forest
+
+
+- Grow uncorrelated deep trees.  **Embassingly parallel** -> **high performance**
+- Each tree definitely overfits the data (but in different ways)
+- The large number of trees and stochastic nature of each tree hopefully averages out the differences. 
+- Not much parameter tuning required here. 
+
+This is generally called ‘bagging’: generate a bag of fully developed trees – the population vote is a good prediction. 
+
+## Gradient boosting machine (GBM)
+
+- Forward learning ensemble method. 
+  + Increasingly refine the model step by step to get good predictions.  sequential model and cannot be parallelized.
+  + Sequential in nature – next step requires prior step (for each tree). 
+- Use gradient descent to update predictions based on a learning rate. 
+- **‘Boosting’ instead of ‘bagging’**. 
+  + This method creates an ensemble of weak learners. 
+- As we grow trees, implement regularization to avoid overfitting. 
+
+The idea of GBM:
+
+- Fit a simple model
+- Analyze the errors (residuals) from that simple model
+- Update the model to better predict the residuals
+- Analyze the new errors. 
+- Repeat…
+- **Well-tuned GBM is almost always better than RFT.**
+
+**GBM Parameter tuning**
+
+Primarily about bias-variance tradeoff 
+
+- Balance model complexity and predictive power.
+- Tree size – the deeper the tree, the more complex the model 
+  + Max_depth/Max_leaf_nodes – control the size of each tree
+- Regularization
+  + Learning rate (eta) – step size shrinkage during updates (prevents overfitting)
+  + Lambda – more regularization in xgboost)
+- Total number of trees in the ensemble
 
 
 
 ## xgboost
+
+
+
+
+## Python packages
+
+### `dask-ml`
+
+[http://ml.dask.org/](http://ml.dask.org/)
+
+- Generalized linear models
+  + Linear, logistic, Poisson 
+  + L1 and L2 regularization
+  + Newton optimization method, gradient descent, lbfgs
+- GBM’s through the xgboost library
+- Somewhat immature at this point. 
+- I prefer to use Dask for bigger than memory data transformations rather than ML. 
+
+### `Apache Spark ML`
+
+- Seems robust? Many models available
+  + GBM, Random Forest, GLM, survival analysis, SVM, multilayer perceptron
+- Mllib – ‘new’ API based on Dataframes
+  + ‘old’ RDD based API is deprecated. 
+- Some benchmarks indicate Apache Spark ML is very slow compared to it’s peers. 
+- However, Spark is a popular cluster technology, so perhaps your company has a cluster available…
+- Python or R API’s, in addition to Scala and Java
+
+### `h2o`
+
+> ‘H2O is an open source, in-memory, distributed, fast, and scalable machine learning and predictive analytics platform that allows you to build machine learning models on big data and provides easy productionalization of those models in an enterprise environment.’ 
+
+> – from the docs
+
+- H2o seems to be a leader in productionalizing models post development. 
+- GUI Flow browser in addition to Python and R API
+
+- Cox proportional hazards models
+- Deep learning models
+  + Supports feed forward artificial neural networks
+  + Does not support recurrent neural networks (RNN) or convolutional neural networks (CNN)
+  + RNN -> time series or 1-d data, CNN considers covariance and relationships among different pixels.
+- Generalized linear models
+  + Gaussian, Poisson, binomial, multinomial, gamma, ordinal, negative binomial
+  + L1/L2/Elastic net – can compute regularization path!
+  + IRLS, L_BFGS, coordinate descent, gradient descent
+- Distributed random forest
+- Generalized boosting machines
+- XGBoost
+- AutoML
+- Some clustering as well
+  + K-means 
+  + Principal component analysis
+  + Generalized low rank models
+
+**`h2o` checkpoint**
+
+- Only available for distributed random forests, generalized boosted machine, and deep learning models (ANN)
+- Update past model estimates with new data rather than fitting a new model from scratch. 
+
+
+
+
+
+
+
 
 
 
